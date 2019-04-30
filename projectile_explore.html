@@ -61,12 +61,12 @@
 function drawCannon(update,x,y) {  // when update is true, draw arrow and use x,y to update angle and velocity
 	context.clearRect(0, 0, canvas.width, canvas.height);		// clear the screen
 	if(update){
-		x+=-10; y+=2;		// adjust so arrow head not under mouse
+		//x+=-10; y+=2;		// adjust so arrow head not under mouse
 		a = Math.atan2(y-cy,x-cx);
 		velocity=Math.sqrt((x-cx)*(x-cx)+(y-cy)*(y-cy));
-		if(velocity>200){x = Math.cos(a)*200+cx; y=Math.sin(a)*200+cy; velocity=200;}
-		velocity_label.innerHTML = (velocity/10).toFixed(0);
-		angle_label.innerHTML = (a*180/Math.PI).toFixed(0);
+		//if(velocity>200){x = Math.cos(a)*200+cx; y=Math.sin(a)*200+cy; velocity=200;}
+		//velocity_label.innerHTML = (velocity/10).toFixed(0);
+		//angle_label.innerHTML = (a*180/Math.PI).toFixed(0);
 		v_x_label.innerHTML = (Math.cos(a)*velocity/10).toFixed(1);
 		v_y_label.innerHTML = (Math.sin(a)*velocity/10).toFixed(1);
 		time_label.innerHTML = (Math.sin(a)*velocity/10*2/9.81).toFixed(1);
@@ -122,12 +122,11 @@ angle_slider.oninput=update_cannon;
 velocity_slider.oninput=update_cannon;
 function update_cannon(){
   if(!start_animation){
-    drawCannon(drawArrow,Math.cos(angle_slider.value)*velocity_slider.this,Math.sin(angle_slider.value)*velocity_slider.this);
+    angle_label.innerHTML = angle_slider.value;
+    velocity_label.innerHTML = velocity_slider.value/10;
+    drawCannon(drawArrow,Math.cos(angle_slider.value*Math.PI/180)*velocity_slider.value,Math.sin(angle_slider.value*Math.PI/180)*velocity_slider.value);
   }
 };
-//function MyMouseMoveHandler(MyEvent) {if(!start_animation){drawCannon(drawArrow,MyEvent.clientX,canvas.height-MyEvent.clientY);}}
-//canvas.addEventListener("mousemove", MyMouseMoveHandler); 
-//function MyMouseClickHandler(MyEvent) {
 function run_animation(){
 	if(start_animation){
 		start_button.innerHTML = "Start Animation";
@@ -144,7 +143,5 @@ function run_animation(){
 		start_animation=true;			drawArrow=false;
 	}
 }
-//canvas.addEventListener("click", MyMouseClickHandler);
-
 </script>
 </body></html>
