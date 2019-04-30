@@ -8,8 +8,8 @@
 <body>
   <canvas id="canvas" width="800" height="400"></canvas><br>
   <button type="button" id="start" onclick="run_animation()">Start Animation</button>
-  <h3>V<sub>i</sub> : <span id="velocity"></span><input type="range" min="0" max="200" value="100" id="v_slider"></h3>
-  <h3>&theta;: <span id="angle"></span>&deg <input type="range" min="0" max="90" value="30" id="a_slider"></h3>
+  <h3>V<sub>i</sub> : <span id="velocity"></span>&nbsp; &nbsp; &nbsp;<input type="range" min="0" max="200" value="100" id="v_slider"></h3>
+  <h3>&nbsp; &nbsp; &theta;: <span id="angle"></span>&deg &nbsp;<input type="range" min="0" max="90" value="30" id="a_slider"></h3>
 <b><ol style="line-height:200%">
   <li>To find range, separate \(V_i\) into \(V_x\) &amp; \(V_y\)</li>
     <ul><li>\(V_{xi} = V_i \sin \theta = \) <span id="v_x"></span></li>
@@ -120,7 +120,7 @@ function animate(){
 	
 slider.oninput=function(){
   if(!start_animation){
-    drawCannon(drawArrow,Math.cos(angle_slider.this)*velocity_slider.this,Math.sin(angle_slider.this)*velocity_slider.this);
+    drawCannon(drawArrow,Math.cos(angle_slider.value)*velocity_slider.this,Math.sin(angle_slider.value)*velocity_slider.this);
   }
 };
 //function MyMouseMoveHandler(MyEvent) {if(!start_animation){drawCannon(drawArrow,MyEvent.clientX,canvas.height-MyEvent.clientY);}}
