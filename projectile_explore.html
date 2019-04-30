@@ -4,16 +4,21 @@
   <title>Projectile Exploration</title>
   <script type="text/x-mathjax-config">MathJax.Hub.Config({CommonHTML:{scale:130}});</script>
   <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+<style>
+  *{box-sizing: border-box;}
+  .column {float: left;width: 100px;padding: 10px;}
+  .row:after {content: "";display: table;clear: both;}
+</style>
 </head>
 <body>
   <canvas id="canvas" width="800" height="400"></canvas><br>
   <button type="button" id="start" onclick="run_animation()">Start Animation</button>
-  <div style="content:;display:table;clear:both;">
-    <div style="float:left;width:100px;"><h3>V<sub>i</sub> : <span id="velocity"></span></div>
-    <div style="float:left;width:100px;"><input type="range" min="0" max="200" value="100" id="v_slider"></h3></div>
-  </div><div style="content:;display:table;clear:both;">
-    <div style="float:left;width:100px;"><h3>&nbsp; &theta;: <span id="angle"></span>&deg</div>
-    <div style="float:left;width:100px;"><input type="range" min="0" max="90" value="30" id="a_slider"></h3></div>
+  <div class="row">
+    <div class="column"><h3>V<sub>i</sub> : <span id="velocity"></span></div>
+    <div class="column"><input type="range" min="0" max="200" value="100" id="v_slider"></h3></div>
+  </div><div class="row">
+    <div class="column"><h3>&nbsp; &theta;: <span id="angle"></span>&deg</div>
+    <div class="column"><input type="range" min="0" max="90" value="30" id="a_slider"></h3></div>
   </div>
 <b><ol style="line-height:200%">
   <li>To find range, separate \(V_i\) into \(V_x\) &amp; \(V_y\)</li>
