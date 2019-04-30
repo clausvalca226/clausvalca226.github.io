@@ -12,13 +12,12 @@
 </head>
 <body>
   <canvas id="canvas" width="800" height="400"></canvas><br>
-  <button type="button" id="start" onclick="run_animation()">Start Animation</button>
   <div class="row">
     <div class="column"><h3>V<sub>i</sub> : <span id="velocity"></span></div>
     <div class="column"><input type="range" min="0" max="200" value="100" id="v_slider"></h3></div>
-  </div><div class="row">
     <div class="column"><h3>&nbsp; &theta;: <span id="angle"></span>&deg</div>
     <div class="column"><input type="range" min="0" max="90" value="30" id="a_slider"></h3></div>
+    <div class="column"><button type="button" id="start" onclick="run_animation()">Start Animation</button></div>
   </div>
 <b><ol style="line-height:200%">
   <li>To find range, separate \(V_i\) into \(V_x\) &amp; \(V_y\)</li>
