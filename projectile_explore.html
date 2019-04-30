@@ -117,8 +117,10 @@ function animate(){
 	context.arc(x2/10,canvas.height-(y2/10),5,0,2*Math.PI);
 	context.fill();
 }
-	
-slider.oninput=function(){
+
+angle_slider.oninput=update_cannon;
+velocity_slider.oninput=update_cannon;
+function update_cannon(){
   if(!start_animation){
     drawCannon(drawArrow,Math.cos(angle_slider.value)*velocity_slider.this,Math.sin(angle_slider.value)*velocity_slider.this);
   }
