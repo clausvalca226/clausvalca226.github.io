@@ -13,23 +13,16 @@
 		<script src="OrbitControls.js"></script>
 		<script>
 var scene = new THREE.Scene();
-	//scene.background = new Three.Color(0xffffff);
-
-	scene.add(new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshBasicMaterial({color:0x00ff00})));
-/*	
-	    for ( let i = 0; i < 1000; i ++ ) {
-    
+//scene.background = new Three.Color(0xffffff);
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshBasicMaterial({color:0x00ff00})));
+for ( let i = 0; i < 10; i ++ ) {
       const object = new THREE.Mesh( geometry, material );
-      object.position.x = Math.random() * 80 - 40;
-      object.position.y = Math.random() * 80 - 40;
-      object.position.z = Math.random() * 80 - 40;
-      object.rotation.x = Math.random() * 2 * Math.PI;
-      object.rotation.y = Math.random() * 2 * Math.PI;
-      object.rotation.z = Math.random() * 2 * Math.PI;
+      object.position.x = i*10;
+      object.position.y = i*10;
+      object.position.z = i*100;
+      //object.rotation.z = Math.random() * 2 * Math.PI;
       scene.add( object );
-          
-		}
-*/	
+}
 	
 var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 	camera.position.set(0,20,100);
