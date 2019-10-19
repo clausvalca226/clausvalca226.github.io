@@ -11,12 +11,12 @@
 	<body>
 		<p>This is a simulation of charges flowing around a circuit
 			and magnetic field lines that result from moving charges.</p>
-		<!-- <script src="three.js"></script>
-		<script src="OrbitControls.js"></script> -->
+		<script src="three.js"></script>
+		<!-- <script src="OrbitControls.js"></script>
 		<script type="module">
 			import * as THREE from './three.module.js';
-			import { OrbitControls } from './OrbitControls.js';
-
+			import { OrbitControls } from './OrbitControls.js'; -->
+		<script>
 
 let scene = new THREE.Scene();
 let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
@@ -39,13 +39,13 @@ let renderer = new THREE.WebGLRenderer();
 	renderer.setClearColor(0xffffff,1);
 document.body.appendChild( renderer.domElement );
 
-var controls = new THREE.OrbitControls( camera, renderer.domElement );
-	controls.update();
-	renderer.render( scene, camera );
+//var controls = new THREE.OrbitControls( camera, renderer.domElement );
+//	controls.update();
+//	renderer.render( scene, camera );
 
 function animate() {
 	requestAnimationFrame( animate );
-	controls.update();
+	//controls.update();
 	renderer.render( scene, camera );
 }
 animate();
