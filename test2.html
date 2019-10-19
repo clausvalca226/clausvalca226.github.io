@@ -7,8 +7,9 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<script src="three.js"></script>
-		<script>
+		<script type="module">
+			import * as THREE from './three.module.js';
+			//import { OrbitControls } from './OrbitControls.js'; -->
 
 let scene = new THREE.Scene();
 //let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
