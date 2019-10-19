@@ -12,9 +12,9 @@
 			//import { OrbitControls } from './OrbitControls.js'; -->
 
 let scene = new THREE.Scene();
-//let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
-//	particle.position.set(10,10,10);
-//	scene.add(particle);
+let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
+	particle.position.set(10,10,10);
+	scene.add(particle);
 scene.add(new THREE.Mesh(new THREE.CubeGeometry( 1,1,1 ),new THREE.MeshStandardMaterial({color: 0xff0000})));
 	
 // create the light - the first parameter is the color, the second, the intensity
