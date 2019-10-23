@@ -18,11 +18,7 @@ let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandard
 	scene.add(particle);
 scene.add(new THREE.Mesh(new THREE.CubeGeometry( 1,1,1 ),new THREE.MeshStandardMaterial({color: 0xff0000})));
 	
-// create the light - the first parameter is the color, the second, the intensity
-var light=new THREE.PointLight(0xFFFFFF,2);
-// set the position (x,y,z) - in this case, straight from behind and above the camera.
-light.position.set(0,3,3);
-// add the light to the scene
+var light=new THREE.AmbientLight(0x404040);
 scene.add(light);	
 
 let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
