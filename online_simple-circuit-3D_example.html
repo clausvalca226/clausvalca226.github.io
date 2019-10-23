@@ -32,10 +32,10 @@ let renderer = new THREE.WebGLRenderer();
 	renderer.setClearColor(0xffffff,1);
 document.body.appendChild( renderer.domElement );
 
-//var controls = new THREE.OrbitControls( camera, renderer.domElement );
-//	controls.update();
-//	renderer.render( scene, camera );
+var controls = new THREE.OrbitControls( camera, renderer.domElement );
+	controls.update();
+	renderer.render( scene, camera );
 
-function animate() {requestAnimationFrame( animate );/*controls.update();*/renderer.render( scene, camera );}
+function animate() {requestAnimationFrame( animate );controls.update();renderer.render( scene, camera );}
 animate();
 </script></body></html>
