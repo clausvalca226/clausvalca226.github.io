@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>1</p>
+		<p>2</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import * as OrbitControls from './OrbitControls.js';
@@ -25,7 +25,7 @@ let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHe
 	camera.position.set(0,20,100);
 let renderer = new THREE.WebGLRenderer();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.setClearColor(0xffffff,1);
+	renderer.setClearColor(0xffffff,0);
 document.body.appendChild( renderer.domElement );
 
 var controls = new THREE.OrbitControls( camera, renderer.domElement );
