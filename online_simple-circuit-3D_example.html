@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>7</p>
+		<p>8</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -18,7 +18,7 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1);
 	light.position.set(0,-1,0);
 	scene.add(light);
 
-let temp_particle;
+let temp;
 let particles = [];
 let nodes = [];
 let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node);
