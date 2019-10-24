@@ -17,11 +17,14 @@ let scene = new THREE.Scene();
 var light=new THREE.DirectionalLight(0xFFFFFF,1);
 	light.position.set(0,-1,0);
 	scene.add(light);
-			
-let particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
-	particle.position.set(10,10,10);
-	scene.add(particle);
-scene.add(new THREE.Mesh(new THREE.CubeGeometry( 1,1,1 ),new THREE.MeshStandardMaterial({color: 0xff0000})));
+
+let temp_particle;
+let particles = [];
+for(let i=0;i<100;i++){
+	temp_particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
+	temp_particle.position.set(0,0,-i*10);
+	scene.add(temp_particle); particles.push(temp_particle);
+}
 
 let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
 	camera.position.set(0,20,100);
