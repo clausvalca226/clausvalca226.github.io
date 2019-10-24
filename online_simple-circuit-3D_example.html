@@ -20,10 +20,17 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1);
 
 let temp_particle;
 let particles = [];
+let nodes = [];
+let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node);
+	node={p:new THREE.Vector3(10,-10,10),prev:nodes[0],next:this}; nodes[0].next=node; nodes.push(node);
+	node={p:new THREE.Vector3(10,10,10),prev:nodes[1],next:this}; nodes[1].next=node; nodes.push(node);
+	node={p:new THREE.Vector3(-10,10,-10),prev:nodes[2],next:nodes[0]}; nodes[2].next=node; nodes.push(node);
+	nodes[0].prev=node;
+
 for(let i=0;i<100;i++){
-	temp_particle = new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000}));
-	temp_particle.position.set(0,0,-i*10);
-	scene.add(temp_particle); particles.push(temp_particle);
+	temp = {s:new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]};
+	temp.s.position.set(temp.n.p.x,temp.n.p.y,temp.n.p.z-i*4);
+	scene.add(temp); particles.push(temp);
 }
 
 let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
@@ -37,6 +44,10 @@ var controls = new OrbitControls( camera, renderer.domElement );
 	controls.update();
 	renderer.render( scene, camera );
 
-function animate() {requestAnimationFrame( animate );controls.update();renderer.render( scene, camera );}
+function update_particles(item){
+	item.s.position.copy(item.s.position.add(new THREE.Vector3(0,0,1)));
+}
+
+function animate() {requestAnimationFrame( animate );particles.foreach(update_particles);controls.update();renderer.render( scene, camera );}
 animate();
 </script></body></html>
