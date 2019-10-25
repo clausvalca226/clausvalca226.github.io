@@ -7,18 +7,16 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>0</p>
+		<p>1</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
 
+// create sene and add light from above and below
 let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
-var light=new THREE.DirectionalLight(0xFFFFFF,1);
-	light.position.set(0,-1,0);
-	scene.add(light);
+var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let temp;
 let particles = [];
 let nodes = [];
 let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node);
@@ -27,25 +25,22 @@ let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node
 	node={p:new THREE.Vector3(-10,10,-10),prev:nodes[2],next:nodes[0]}; nodes[2].next=node; nodes.push(node);
 	nodes[0].prev=node;
 
+// create array of particles to travel circuit; they start in a row along z axis and move to first node
 for(let i=0;i<100;i++){
-	temp = {s:new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]};
-	temp.s.position.set(temp.n.p.x,temp.n.p.y,temp.n.p.z-i*4);
-	scene.add(temp.s); particles.push(temp);
+	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
+	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i*4);
+	scene.add(particles[particles.length-1].s);
 }
 
-let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-	camera.position.set(0,20,100);
-let renderer = new THREE.WebGLRenderer();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.setClearColor(0xffffff,1);
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,20,100);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
 document.body.appendChild( renderer.domElement );
-
-var controls = new OrbitControls( camera, renderer.domElement );
-	controls.update();
-	renderer.render( scene, camera );
+var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	item.s.position.copy(item.s.position.add(new THREE.Vector3(0,0,1)));
+	//item.s.position.copy(item.s.position.add(new THREE.Vector3(0,0,1)));
+	item.s.lerp(item.n.p,0.1);
+	if(item.s.distanceTo(item.n.p)<0.1){item.s.n=item.s.n.next;}
 }
 
 function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
