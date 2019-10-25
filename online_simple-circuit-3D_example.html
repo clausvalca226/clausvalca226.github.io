@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>6</p>
+		<p>7</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -40,8 +40,8 @@ var controls = new OrbitControls( camera, renderer.domElement ); controls.update
 function update_particles(item){
 	//item.s.position.copy(item.s.position.add(new THREE.Vector3(0,0,1)));
 	//item.s.position.lerp(item.n.p,0.1);
-	item.s.position.add(item.n.p.sub(item.s.position).normalize().multiplyScalar(0.1));
-	if(item.s.position.distanceTo(item.n.p)<1){item.n=item.n.next;}
+	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
+	if(item.s.position.clone().sub(item.n.p).length()<1){item.n=item.n.next;}
 }
 
 function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
