@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>0</p>
+		<p>1</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -27,7 +27,7 @@ let particles = [];
 let nodes = [];
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
-	node={p:init_nodes[i],prev:nodes[nodes.lenght-1],next:this}; nodes[nodes.lenght-1].next=node; nodes.push(node);}
+	node={p:init_nodes[i],prev:nodes[nodes.length-1],next:this}; nodes[nodes.length-1].next=node; nodes.push(node);}
 nodes[0].prev=node; node.next=nodes[0];
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
