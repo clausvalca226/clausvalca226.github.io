@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>8</p>
+		<p>0</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -17,18 +17,23 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
+let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(-6,-10,-6),new THREE.Vector3(-4,-10,-4),new THREE.Vector3(-2,-10,-2),
+		new THREE.Vector3(0,-10,0),new THREE.Vector3(2,-10,2),new THREE.Vector3(4,-10,4),new THREE.Vector3(6,-10,6),
+		new THREE.Vector3(8,-10,8),
+		new THREE.Vector3(10,10,10),
+		new THREE.Vector3(-10,10,-10)];
+			
 let particles = [];
 let nodes = [];
-let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node);
-	node={p:new THREE.Vector3(10,-10,10),prev:nodes[0],next:this}; nodes[0].next=node; nodes.push(node);
-	node={p:new THREE.Vector3(10,10,10),prev:nodes[1],next:this}; nodes[1].next=node; nodes.push(node);
-	node={p:new THREE.Vector3(-10,10,-10),prev:nodes[2],next:nodes[0]}; nodes[2].next=node; nodes.push(node);
-	nodes[0].prev=node;
+let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
+for(let i=1;i<init_nodes.length;i++){
+	node={p:init_nodes[i],prev:nodes[nodes.lenght-1],next:this}; nodes[nodes.lenght-1].next=node; nodes.push(node);}
+nodes[0].prev=node; node.next=nodes[0];
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
 for(let i=0;i<100;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
-	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i*2);
+	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
 }
 
