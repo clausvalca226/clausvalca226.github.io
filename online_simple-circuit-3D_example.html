@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>7</p>
+		<p>8</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -27,8 +27,8 @@ let node={p:new THREE.Vector3(-10,-10,-10),prev:this,next:this}; nodes.push(node
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
 for(let i=0;i<100;i++){
-	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(1),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
-	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i*4);
+	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
+	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i*2);
 	scene.add(particles[particles.length-1].s);
 }
 
@@ -38,8 +38,6 @@ document.body.appendChild( renderer.domElement );
 var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	//item.s.position.copy(item.s.position.add(new THREE.Vector3(0,0,1)));
-	//item.s.position.lerp(item.n.p,0.1);
 	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
 	if(item.s.position.clone().sub(item.n.p).length()<1){item.n=item.n.next;}
 }
