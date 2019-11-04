@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Simple Circuit</title>
+		<style>body{ margin: 0;}canvas{ width: 100%; height: 100%;}</style>
+	</head>
+	<body>
+		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
+		<p>1</p>
+		<script type="module">
+import * as THREE from './three.module.js';
+import {OrbitControls} from './OrbitControls.js';
+
+// create sene and add light from above and below
+let scene = new THREE.Scene();
+	scene.add(new THREE.DirectionalLight());
+var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
+
+let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(-6,-10,-6),new THREE.Vector3(-4,-10,-4),new THREE.Vector3(-2,-10,-2),
+		new THREE.Vector3(0,-10,0),new THREE.Vector3(2,-10,2),new THREE.Vector3(4,-10,4),new THREE.Vector3(6,-10,6),
+		new THREE.Vector3(8,-10,8),
+		new THREE.Vector3(10,10,10),
+		new THREE.Vector3(-10,10,-10)];
+			
+let particles = [];
+let nodes = [];
+let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
+for(let i=1;i<init_nodes.length;i++){
+	node={p:init_nodes[i],prev:nodes[nodes.length-1],next:this}; nodes[nodes.length-1].next=node; nodes.push(node);}
+nodes[0].prev=node; node.next=nodes[0];
+
+// create array of particles to travel circuit; they start in a row along z axis and move to first node
+for(let i=0;i<100;i++){
+	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
+	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
+	scene.add(particles[particles.length-1].s);
+}
+
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,20,100);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
+document.body.appendChild( renderer.domElement );
+var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
+
+function update_particles(item){
+	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
+	if(item.s.position.clone().sub(item.n.p).length()<1){item.n=item.n.next;}
+}
+
+function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
+animate();
+</script></body></html>
