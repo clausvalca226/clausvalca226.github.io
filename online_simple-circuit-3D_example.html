@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>1</p>
+		<p>2</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -39,6 +39,9 @@ for(let i=0;i<90;i++){
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
 }
+let cylinder = new THREE.Mesh(new THREE.CylinderGeometry(5,5,20,32),new THREE.MeshBasicMaterial({color:0xffff00}));
+cylinder.position(-5,-5,-5);
+scene.add(cylinder);
 
 let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,20,100);
 let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
