@@ -19,9 +19,12 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 
 let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(-6,-10,-6),new THREE.Vector3(-4,-10,-4),new THREE.Vector3(-2,-10,-2),
 		new THREE.Vector3(0,-10,0),new THREE.Vector3(2,-10,2),new THREE.Vector3(4,-10,4),new THREE.Vector3(6,-10,6),
-		new THREE.Vector3(8,-10,8),
-		new THREE.Vector3(10,10,10),
-		new THREE.Vector3(-10,10,-10)];
+		new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,-6,10),new THREE.Vector3(10,-4,10),new THREE.Vector3(10,-2,10),
+		new THREE.Vector3(10,0,10),new THREE.Vector3(10,2,10),new THREE.Vector3(10,4,10),new THREE.Vector3(10,6,10),new THREE.Vector3(10,8,10),
+		new THREE.Vector3(8,10,8),new THREE.Vector3(6,10,6),new THREE.Vector3(4,10,4),new THREE.Vector3(2,10,2),new THREE.Vector3(0,10,0),
+		new THREE.Vector3(-2,10,-2),new THREE.Vector3(-4,10,-4),new THREE.Vector3(-6,10,-6),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),
+		new THREE.Vector3(-10,6,-10),new THREE.Vector3(-10,4,-10),new THREE.Vector3(-10,2,-10),new THREE.Vector3(-10,0,-10),new THREE.Vector3(-10,-2,-10),
+		new THREE.Vector3(-10,-4,-10),new THREE.Vector3(-10,-6,-10),new THREE.Vector3(-10,-8,-10)];
 			
 let particles = [];
 let nodes = [];
@@ -31,7 +34,7 @@ for(let i=1;i<init_nodes.length;i++){
 nodes[0].prev=node; node.next=nodes[0];
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<100;i++){
+for(let i=0;i<90;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
