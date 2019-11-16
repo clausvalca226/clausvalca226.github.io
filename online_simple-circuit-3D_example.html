@@ -60,7 +60,7 @@ function add_rings(item){
 		else{rings[rings.length-1].rotateY(Math.PI/2);}
 		if(temp_d.x<0&&temp_d.z<0&&temp_d.y!=0){rings[rings.length-1].rotateX(Math.atan(temp_d.y/Math.sqrt(temp_d.x*temp_d.x+temp_d.z*temp_d.z)));}
     		else{rings[rings.length-1].rotateX(Math.atan(-temp_d.y/Math.sqrt(temp_d.x*temp_d.x+temp_d.z*temp_d.z)));}
-    		rotateZ(counter*multiplier+2*PI);
+    		//rings[rings.length-1].rotateZ(counter*multiplier+2*Math.PI);
 		scene.add(rings[rings.length-1])
 	}
 }
