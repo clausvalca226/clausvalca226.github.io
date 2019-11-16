@@ -89,7 +89,7 @@ var controls = new OrbitControls( camera, renderer.domElement ); controls.update
 
 function update_particles(item){
 	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
-	if(item.s.position.clone().sub(item.n.p).length()<1){item.n=item.n.next;}
+	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
 function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
