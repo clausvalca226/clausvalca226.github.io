@@ -46,8 +46,8 @@ nodes.forEach(set_h);		// call the above function on each node to find halfway p
 
 function add_rings(item){
 	rings.push(new THREE.Mesh(new THREE.RingGeometry(1,2,32), new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide})));
-	//rings[rings.length-1].postion = item.h;
-	rings[rings.length-1].position.set(10,10,10);
+	rings[rings.length-1].position = item.h;
+	//rings[rings.length-1].position.set(10,10,10);
 	scene.add(rings[rings.length-1])
 }
 nodes.forEach(add_rings);
