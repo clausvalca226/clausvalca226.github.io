@@ -32,8 +32,8 @@ let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
 	node={	p:init_nodes[i],			// new node
 	      	prev:nodes[nodes.length-1],		// link to previous
-	      	next:this				// place holder of next until next node is created
-	      	h:init_nodes[i],			// place holder of halfway point between nodes until next is created
+	      	next:this,				// place holder of next until next node is created
+	      	h:init_nodes[i]				// place holder of halfway point between nodes until next is created
 	     };
 	nodes[nodes.length-1].next=node;		// link previous to this new node
 							// set halfway point (between last node and this) for previous node
