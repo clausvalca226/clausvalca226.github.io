@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>3</p>
+		<p>3, to do: forEach can create function in the arguments, use loop to create rings from one node to next, get rid of extra nodes (not needed since I have array of rings)</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -41,7 +41,7 @@ for(let i=1;i<init_nodes.length;i++){
 }
 nodes[0].prev=node; node.next=nodes[0];
 
-function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p));}
+function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p).multiplyScalar(0.5));}
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
 function add_rings(item){
