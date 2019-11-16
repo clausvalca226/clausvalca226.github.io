@@ -41,7 +41,10 @@ for(let i=1;i<init_nodes.length;i++){
 }
 nodes[0].prev=node; node.next=nodes[0];
 
-function set_h(item){item.h = item.p.copy().add(item.next.p.copy().sub(item.p));}
+function set_h(item){
+	//item.h = item.p.copy().add(item.next.p.copy().sub(item.p));
+	item.h = item.p.copy();
+}
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
 function add_rings(item){
