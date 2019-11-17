@@ -37,16 +37,16 @@ nodes[0].prev=node; node.next=nodes[0];
 
 function add_rings(item,index){
 	if(num_rings[index]!=0){
-		//let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
+		let num_frames=20;
 		//let p=item.p.clone();
-		for(let k=0;k<10;k++){
+		for(let k=0;k<num_frames;k++){
 			let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
 			let p=item.p.clone();
 			let temp_rings = [];
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
 				for(let j=0;j<4;j++){
-					temp_rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2.2,2.5,32,1,j*2*Math.PI/4+2*Math.PI*k/10,2*Math.PI/8),
+					temp_rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2.2,2.5,32,1,j*2*Math.PI/4+2*Math.PI*k/num_frames,2*Math.PI/8),
 								  new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
 			
 					temp_rings[temp_rings.length-1].position.set(p.x,p.y,p.z);
