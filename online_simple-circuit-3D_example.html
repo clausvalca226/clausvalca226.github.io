@@ -48,7 +48,7 @@ function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p)
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
 function add_rings(item){
-	let temp_d=item.p.clone().sub(item.p).multiplyScalar(1/11);
+	let temp_d=item.p.clone().sub(item.p);//.multiplyScalar(1/11);
 	let temp_p=item.p.clone();
 	if(temp_d.z<0){multiplier=-1;}
 	for(let i=0;i<10;i++){
