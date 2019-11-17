@@ -96,7 +96,7 @@ while(node_holder == particles[particles.length-1].n){particles.forEach(update_p
 			
 function animate() {
 	requestAnimationFrame( animate );	particles.forEach(update_particles);
-	rings.forEach(update_rings);
+	//rings.forEach(update_rings);
 	controls.update();			renderer.render( scene, camera );
 }
 animate();
