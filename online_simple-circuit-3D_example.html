@@ -45,15 +45,16 @@ function add_rings(item,index){
 		let p=item.p.clone();
 		for(let i=0;i<num_rings[index];i++){
 			p.add(d);
-			rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
-			//rings.push(new THREE.Mesh(new THREE.CylinderBufferGeometry(2.5,2.5,1,32,1,true), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+			for(let j=0;j<4;j++){
+				rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1,j*Math.PI/4,2*Math.PI/8), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
 			
-			rings[rings.length-1].position.set(p.x,p.y,p.z);
-			if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
-			else{rings[rings.length-1].rotateY(Math.PI/2);}
-			if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-    			else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-			scene.add(rings[rings.length-1])
+				rings[rings.length-1].position.set(p.x,p.y,p.z);
+				if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
+				else{rings[rings.length-1].rotateY(Math.PI/2);}
+				if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+    				else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+				scene.add(rings[rings.length-1])
+			}
 		}
 	}
 }
@@ -85,9 +86,17 @@ function update_particles(item){
 	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
+function update_rings(item){
+	item.geometry.dispose();
+	item.geometry = new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1);
+}
 
 while(node_holder != particles[particles.length-1].n){particles.forEach(update_particles);}
 			
-function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
+function animate() {
+	requestAnimationFrame( animate );	particles.forEach(update_particles);
+	rings.forEach(update_rings);
+	controls.update();			renderer.render( scene, camera );
+}
 animate();
 </script></body></html>
