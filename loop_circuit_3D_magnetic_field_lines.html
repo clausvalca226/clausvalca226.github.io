@@ -6,8 +6,6 @@
 		<style>body{ margin: 0;}canvas{ width: 100%; height: 100%;}</style>
 	</head>
 	<body>
-		<p>This is a simulation of charges flowing around a circuit	and magnetic field lines that result from moving charges.</p>
-		<p>3, to do: forEach can create function in the arguments, use loop to create rings from one node to next, get rid of extra nodes (not needed since I have array of rings)</p>
 		<script type="module">
 import * as THREE from './three.module.js';
 import {OrbitControls} from './OrbitControls.js';
@@ -17,8 +15,13 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
-		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
+let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8)]
+
+
+init_nodes.pop(new THREE.Vector3(10,-8,10));	init_nodes.pop(new THREE.Vector3(10,8,10));
+init_nodes.pop(new THREE.Vector3(8,10,8));	init_nodes.pop(new THREE.Vector3(-8,10,-8));
+init_nodes.pop(new THREE.Vector3(-10,8,-10));	init_nodes.pop(new THREE.Vector3(-10,-8,-10));
+
 let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
 
 let particles = [];
