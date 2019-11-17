@@ -15,14 +15,15 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8)]
-
-
-init_nodes.pop(new THREE.Vector3(10,-8,10));	init_nodes.pop(new THREE.Vector3(10,8,10));
-init_nodes.pop(new THREE.Vector3(8,10,8));	init_nodes.pop(new THREE.Vector3(-8,10,-8));
-init_nodes.pop(new THREE.Vector3(-10,8,-10));	init_nodes.pop(new THREE.Vector3(-10,-8,-10));
-
-let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
+let num_rings;
+let init_nodes;
+init_nodes.pop(new THREE.Vector3(-8,-10,-8));num_rings.pop(10);	init_nodes.pop(new THREE.Vector3(8,-10,8));num_rings.pop(4);
+init_nodes.pop(new THREE.Vector3(10,-8,10));num_rings.pop(10);
+let center = new THREE.Vector3(20,-8,20);
+let radius = new THREE.Vector3(10,-8,10);
+init_nodes.pop(new THREE.Vector3(10,8,10));num_rings.pop(4);
+init_nodes.pop(new THREE.Vector3(8,10,8));num_rings.pop(10);	init_nodes.pop(new THREE.Vector3(-8,10,-8));num_rings.pop(4);
+init_nodes.pop(new THREE.Vector3(-10,8,-10));num_rings.pop(0);	init_nodes.pop(new THREE.Vector3(-10,-8,-10));num_rings.pop(4);
 
 let particles = [];
 let nodes = [];
