@@ -45,7 +45,9 @@ function add_rings(item,index){
 		let p=item.p.clone();
 		for(let i=0;i<num_rings[index];i++){
 			p.add(d);
-			rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32,1), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+			//rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32,1), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+			rings.push(new THREE.Mesh(new THREE.CylinderBufferGeometry(2.5,2.5,1,32,1,true), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+			
 			rings[rings.length-1].position.set(p.x,p.y,p.z);
 			if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
 			else{rings[rings.length-1].rotateY(Math.PI/2);}
