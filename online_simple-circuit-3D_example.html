@@ -94,8 +94,7 @@ function update_particles(item){
 
 let counter = 0;
 let show_hide = true;
-function update_rings3(item){item.visible=show_hide;}
-function update_rings2(item){item.forEach(update_rings3);}
+function update_rings2(item){item.visible=show_hide;}
 function update_rings1(item,index){
 	if(index==counter){show_hide=true;}else{show_hide=false;}
 	item.forEach(update_rings2);
