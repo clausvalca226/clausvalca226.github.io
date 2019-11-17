@@ -19,7 +19,7 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 
 let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
 		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
-let num_rings=[10,4,10,4,10,4,10,4];	// must be same size as init_nodes
+let num_rings=[10,4,0,4,10,4,10,4];	// must be same size as init_nodes
 
 let particles = [];
 let nodes = [];
@@ -40,17 +40,19 @@ function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p)
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
 function add_rings(item,index){
-	let d=item.next.p.clone().sub(item.p).multiplyScalar(1/11);
+	let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
 	let p=item.p.clone();
 	for(let i=0;i<num_rings[index];i++){
-		p.add(d);
-		rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
-		rings[rings.length-1].position.set(p.x,p.y,p.z);
-		if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
-		else{rings[rings.length-1].rotateY(Math.PI/2);}
-		if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-    		else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-		scene.add(rings[rings.length-1])
+		if(num_rings[index]!0){
+			p.add(d);
+			rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+			rings[rings.length-1].position.set(p.x,p.y,p.z);
+			if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
+			else{rings[rings.length-1].rotateY(Math.PI/2);}
+			if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+    			else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+			scene.add(rings[rings.length-1])
+		}
 	}
 }
 nodes.forEach(add_rings);
