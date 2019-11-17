@@ -48,14 +48,12 @@ function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p)
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
 function add_rings(item){
-	let temp_d=item.p.clone().sub(item.next.p).multiplyScalar(1/11);
-	let temp_p=item.p.clone();
-	//if(temp_d.z<0){multiplier=-1;}
+	let d=item.next.p.clone().sub(item.p).multiplyScalar(1/11);
+	let p=item.p.clone();
 	for(let i=0;i<10;i++){
-		//let temp_p2 = item.p.clone().add(temp_d.clone().multiplyScalar(i));
-		temp_p.add(temp_d);
-		rings.push(new THREE.Mesh(new THREE.RingGeometry(0.5,1.5,32), new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide})));
-		rings[rings.length-1].position.set(temp_p.x,temp_p.y,temp_p.z);
+		p.add(d);
+		rings.push(new THREE.Mesh(new THREE.RingGeometry(1,2,32), new THREE.MeshBasicMaterial({color:0x000000,side:THREE.DoubleSide})));
+		rings[rings.length-1].position.set(p.x,p.y,p.z);
 		//if(temp_d!=0){rings[rings.length-1].rotateY(Math.atan(temp_d.x/temp_d.z));}
 		//else{rings[rings.length-1].rotateY(Math.PI/2);}
 		//if(temp_d.x<0&&temp_d.z<0&&temp_d.y!=0){rings[rings.length-1].rotateX(Math.atan(temp_d.y/Math.sqrt(temp_d.x*temp_d.x+temp_d.z*temp_d.z)));}
