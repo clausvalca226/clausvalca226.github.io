@@ -23,7 +23,7 @@ let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
 
 let particles = [];
 let nodes = [];
-let rings = [];
+let rings = [][];
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
 	node={	p:init_nodes[i],			// new node
@@ -43,19 +43,23 @@ function add_rings(item,index){
 	if(num_rings[index]!=0){
 		let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
 		let p=item.p.clone();
-		for(let i=0;i<num_rings[index];i++){
-			p.add(d);
-			for(let j=0;j<4;j++){
-				rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
-							  new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+		for(let k=0;k<10;k++){
+			let temp_rings = [];
+			for(let i=0;i<num_rings[index];i++){
+				p.add(d);
+				for(let j=0;j<4;j++){
+					temp_rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1,j*2*Math.PI/4+2*Math.PI*k/10,2*Math.PI/8),
+								  new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
 			
-				rings[rings.length-1].position.set(p.x,p.y,p.z);
-				if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
-				else{rings[rings.length-1].rotateY(Math.PI/2);}
-				if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-    				else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-				scene.add(rings[rings.length-1])
+					temp_rings[temp_rings.length-1].position.set(p.x,p.y,p.z);
+					if(d.z!=0){temp_rings[temp_rings.length-1].rotateY(Math.atan(d.x/d.z));}
+					else{temp_rings[temp_rings.length-1].rotateY(Math.PI/2);}
+					if(d.x<0&&d.z<0&&d.y!=0){temp_rings[temp_rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+    					else{temp_rings[temp_rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					scene.add(temp_rings[temp_rings.length-1])
+				}
 			}
+			rings.push(temp_rings);
 		}
 	}
 }
@@ -87,17 +91,23 @@ function update_particles(item){
 	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
-function update_rings(item){
-	item.geometry.dispose();
-	item.geometry = new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1));
+
+let counter = 0;
+let show_hide = true;
+function update_rings3(item){item.visible=show_hide;}
+function update_rings2(item){item.forEach(update_rings3);}
+function update_rings1(item,index){
+	if(index==counter){show_hide=true;}else{show_hide=false;}
+	item.forEach(update_rings2);
 }
 
 while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 			
 function animate() {
 	requestAnimationFrame( animate );	particles.forEach(update_particles);
-	//rings.forEach(update_rings);
+	rings.forEach(update_rings1);
 	controls.update();			renderer.render( scene, camera );
+	counter++;				if(counter>9){counter=0;}
 }
 animate();
 </script></body></html>
