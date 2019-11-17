@@ -17,18 +17,10 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let init_nodes=[new THREE.Vector3(-8,-10,-8),//new THREE.Vector3(-6,-10,-6),new THREE.Vector3(-4,-10,-4),new THREE.Vector3(-2,-10,-2),
-		//new THREE.Vector3(0,-10,0),new THREE.Vector3(2,-10,2),new THREE.Vector3(4,-10,4),new THREE.Vector3(6,-10,6),
-		new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),//new THREE.Vector3(10,-6,10),new THREE.Vector3(10,-4,10),new THREE.Vector3(10,-2,10),
-		//new THREE.Vector3(10,0,10),new THREE.Vector3(10,2,10),new THREE.Vector3(10,4,10),new THREE.Vector3(10,6,10),
-		new THREE.Vector3(10,8,10),
-		new THREE.Vector3(8,10,8),//new THREE.Vector3(6,10,6),new THREE.Vector3(4,10,4),new THREE.Vector3(2,10,2),new THREE.Vector3(0,10,0),
-		//new THREE.Vector3(-2,10,-2),new THREE.Vector3(-4,10,-4),new THREE.Vector3(-6,10,-6),
-		new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),
-		//new THREE.Vector3(-10,6,-10),new THREE.Vector3(-10,4,-10),new THREE.Vector3(-10,2,-10),new THREE.Vector3(-10,0,-10),new THREE.Vector3(-10,-2,-10),
-		//new THREE.Vector3(-10,-4,-10),new THREE.Vector3(-10,-6,-10),
-		new THREE.Vector3(-10,-8,-10)];
-			
+let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
+		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
+let num_rings=[10,4,10,4,10,4,10,4];	// must be same size as init_nodes
+
 let particles = [];
 let nodes = [];
 let rings = [];
@@ -47,12 +39,12 @@ nodes[0].prev=node; node.next=nodes[0];
 function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p).multiplyScalar(0.5));}
 nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
 
-function add_rings(item){
+function add_rings(item,index){
 	let d=item.next.p.clone().sub(item.p).multiplyScalar(1/11);
 	let p=item.p.clone();
-	for(let i=0;i<10;i++){
+	for(let i=0;i<num_rings[index];i++){
 		p.add(d);
-		rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32), new THREE.MeshBasicMaterial({color:0xFFFF00,side:THREE.DoubleSide})));
+		rings.push(new THREE.Mesh(new THREE.RingGeometry(2,2.5,32), new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
 		rings[rings.length-1].position.set(p.x,p.y,p.z);
 		if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
 		else{rings[rings.length-1].rotateY(Math.PI/2);}
