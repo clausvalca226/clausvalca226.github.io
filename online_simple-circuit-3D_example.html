@@ -91,7 +91,7 @@ function update_rings(item){
 	item.geometry = new THREE.Mesh(new THREE.RingBufferGeometry(2,2.5,32,1);
 }
 
-while(node_holder != particles[particles.length-1].n){particles.forEach(update_particles);}
+while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 			
 function animate() {
 	requestAnimationFrame( animate );	particles.forEach(update_particles);
