@@ -92,11 +92,11 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
-let counter = 0;
+let counter = 0.0;
 let show_hide = true;
 function update_rings2(item){item.visible=show_hide;}
 function update_rings1(item,index){
-	if(index==counter){show_hide=true;}else{show_hide=false;}
+	if(index==parseInt(counter)){show_hide=true;}else{show_hide=false;}
 	item.forEach(update_rings2);
 }
 
@@ -106,7 +106,7 @@ function animate() {
 	requestAnimationFrame( animate );	particles.forEach(update_particles);
 	rings.forEach(update_rings1);
 	controls.update();			renderer.render( scene, camera );
-	counter++;				if(counter>9){counter=0;}
+	counter+=0.1;				if(counter>9){counter=0;}
 }
 animate();
 </script></body></html>
