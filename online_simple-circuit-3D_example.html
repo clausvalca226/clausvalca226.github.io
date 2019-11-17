@@ -19,7 +19,7 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 
 let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
 		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
-let num_rings=[10,4,0,4,10,4,10,4];	// must be same size as init_nodes
+let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
 
 let particles = [];
 let nodes = [];
@@ -63,6 +63,7 @@ for(let i=0;i<90;i++){
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
 }
+let node_holder = particles[particles.length-1].n;
 let cylinder1 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,7,50),new THREE.MeshBasicMaterial({color:0x000000}));
 	cylinder1.position.set(-10,0,-10);
 	scene.add(cylinder1);
@@ -83,6 +84,8 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
+while(node_holder != particles[particles.length-1].n){particles.forEach(update_particles);}
+			
 function animate() {requestAnimationFrame( animate );particles.forEach(update_particles);controls.update();renderer.render( scene, camera );}
 animate();
 </script></body></html>
