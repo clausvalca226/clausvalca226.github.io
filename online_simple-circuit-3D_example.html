@@ -29,21 +29,19 @@ for(let i=1;i<init_nodes.length;i++){
 	node={	p:init_nodes[i],			// new node
 	      	prev:nodes[nodes.length-1],		// link to previous
 	      	next:this,				// place holder of next until next node is created
-	      	h:init_nodes[i]				// place holder of halfway point between nodes until next is created
 	     };
 	nodes[nodes.length-1].next=node;		// link previous to this new node
 	nodes.push(node);
 }
 nodes[0].prev=node; node.next=nodes[0];
 
-function set_h(item){item.h = item.p.clone().add(item.next.p.clone().sub(item.p).multiplyScalar(0.5));}
-nodes.forEach(set_h);		// call the above function on each node to find halfway points between node and next
-
 function add_rings(item,index){
 	if(num_rings[index]!=0){
-		let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
-		let p=item.p.clone();
+		//let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
+		//let p=item.p.clone();
 		for(let k=0;k<10;k++){
+			let d=item.next.p.clone().sub(item.p).multiplyScalar(1/num_rings[index]);
+			let p=item.p.clone();
 			let temp_rings = [];
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
@@ -66,7 +64,7 @@ function add_rings(item,index){
 nodes.forEach(add_rings);
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<90;i++){
+for(let i=0;i<91;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
