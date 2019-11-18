@@ -17,15 +17,17 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 
 let num_rings=[];
 let init_nodes=[];
-init_nodes.push(new THREE.Vector3(-8,-10,-8));num_rings.push(10);init_nodes.push(new THREE.Vector3(8,-10,8));num_rings.push(4);
-init_nodes.push(new THREE.Vector3(10,-8,10));num_rings.push(10);
-let center = new THREE.Vector3(13,-8,13);
+init_nodes.push(new THREE.Vector3(-8,-10,-8));	num_rings.push(10);
+init_nodes.push(new THREE.Vector3(8,-10,8));	num_rings.push(4);
+init_nodes.push(new THREE.Vector3(10,-8,10));	num_rings.push(1);
+let center = new THREE.Vector3(12.5,-8,12.5);
 let radius = new THREE.Vector3(10,-8,10);radius.sub(center);
 let circle_steps = 10
 for(let i=0;i<circle_steps;i++){
 	center.add(new THREE.Vector3(0,0.1,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
 	init_nodes.push(center.clone().add(radius));	num_rings.push(1);
 }
+num_rings[num_rings.length-1]=10;
 init_nodes.push(new THREE.Vector3(10,8,10));num_rings.push(4);
 init_nodes.push(new THREE.Vector3(8,10,8));num_rings.push(10);	init_nodes.push(new THREE.Vector3(-8,10,-8));num_rings.push(4);
 init_nodes.push(new THREE.Vector3(-10,8,-10));num_rings.push(0);init_nodes.push(new THREE.Vector3(-10,-8,-10));num_rings.push(4);
