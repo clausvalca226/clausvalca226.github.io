@@ -23,7 +23,7 @@ init_nodes.push(new THREE.Vector3(10,-8,10));	num_rings.push(1);
 let center = new THREE.Vector3(12.5,-8,12.5);
 let radius = new THREE.Vector3(10,-8,10);radius.sub(center);
 let circle_steps = 10
-for(let i=0;i<circle_steps;i++){
+for(let i=0;i<circle_steps*5;i++){
 	center.add(new THREE.Vector3(0,0.1,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
 	init_nodes.push(center.clone().add(radius));	num_rings.push(1);
 }
@@ -75,7 +75,7 @@ for(k=0;k<num_frames;k++){
 }
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<111;i++){
+for(let i=0;i<200;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
