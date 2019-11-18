@@ -15,15 +15,20 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let num_rings;
-let init_nodes;
-init_nodes.pop(new THREE.Vector3(-8,-10,-8));num_rings.pop(10);	init_nodes.pop(new THREE.Vector3(8,-10,8));num_rings.pop(4);
-init_nodes.pop(new THREE.Vector3(10,-8,10));num_rings.pop(10);
+let num_rings=[];
+let init_nodes=[];
+init_nodes.push(new THREE.Vector3(-8,-10,-8));num_rings.push(10);init_nodes.push(new THREE.Vector3(8,-10,8));num_rings.push(4);
+init_nodes.push(new THREE.Vector3(10,-8,10));num_rings.push(10);
 let center = new THREE.Vector3(20,-8,20);
-let radius = new THREE.Vector3(10,-8,10);
-init_nodes.pop(new THREE.Vector3(10,8,10));num_rings.pop(4);
-init_nodes.pop(new THREE.Vector3(8,10,8));num_rings.pop(10);	init_nodes.pop(new THREE.Vector3(-8,10,-8));num_rings.pop(4);
-init_nodes.pop(new THREE.Vector3(-10,8,-10));num_rings.pop(0);	init_nodes.pop(new THREE.Vector3(-10,-8,-10));num_rings.pop(4);
+let radius = new THREE.Vector3(10,-8,10);radius.sub(center);
+let circle_steps = 15;
+for(let i=0;i<circle_steps;i++){
+	center.add(new THREE.Vector3(0,0.1,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
+	init_nodes.push(center.clone().add(radius));	num_rings.push(1);
+}
+init_nodes.push(new THREE.Vector3(10,8,10));num_rings.push(4);
+init_nodes.push(new THREE.Vector3(8,10,8));num_rings.push(10);	init_nodes.push(new THREE.Vector3(-8,10,-8));num_rings.push(4);
+init_nodes.push(new THREE.Vector3(-10,8,-10));num_rings.push(0);init_nodes.push(new THREE.Vector3(-10,-8,-10));num_rings.push(4);
 
 let particles = [];
 let nodes = [];
