@@ -19,9 +19,9 @@ let num_rings=[];
 let init_nodes=[];
 init_nodes.push(new THREE.Vector3(-8,-10,-8));num_rings.push(10);init_nodes.push(new THREE.Vector3(8,-10,8));num_rings.push(4);
 init_nodes.push(new THREE.Vector3(10,-8,10));num_rings.push(10);
-let center = new THREE.Vector3(15,-8,15);
+let center = new THREE.Vector3(13,-8,13);
 let radius = new THREE.Vector3(10,-8,10);radius.sub(center);
-let circle_steps = 15;
+let circle_steps = 10
 for(let i=0;i<circle_steps;i++){
 	center.add(new THREE.Vector3(0,0.1,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
 	init_nodes.push(center.clone().add(radius));	num_rings.push(1);
