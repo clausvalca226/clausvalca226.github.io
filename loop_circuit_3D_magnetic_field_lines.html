@@ -75,7 +75,7 @@ for(k=0;k<num_frames;k++){
 }
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<91;i++){
+for(let i=0;i<120;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
