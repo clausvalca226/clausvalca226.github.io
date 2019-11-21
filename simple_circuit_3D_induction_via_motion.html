@@ -67,8 +67,8 @@ function update_particles(item){
 		else{item.s.position.add(item.n.prev.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
 	}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
-	if(forward){if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}}
-	else{if(item.s.position.clone().sub(item.n.prev.p).length()<0.3){item.n=item.n.prev;}}
+	if(forward){if(item.s.position.clone().sub(item.n.p).length()<0.05){item.n=item.n.next;}}
+	else{if(item.s.position.clone().sub(item.n.prev.p).length()<0.05){item.n=item.n.prev;}}
 	item.s.position.add(velocity);
 }
 function update_nodes(item){item.p.add(velocity);}
