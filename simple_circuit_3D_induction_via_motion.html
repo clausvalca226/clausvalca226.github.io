@@ -19,7 +19,7 @@ let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THRE
 		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
 let particles = [];
 let nodes = [];
-let velocity = new THREE.Vector3(0,0.4,0);
+let velocity = new THREE.Vector3(0,0,0);
 let dv = new THREE.Vector3(0,0.01,0);
 let multiplier = 1.1;
 let counter = 0;
@@ -65,7 +65,7 @@ function update_nodes(item){item.p.add(velocity);}
 //	item.forEach(update_rings2);
 //}
 
-//while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 start = true;
 			
 function animate() {
