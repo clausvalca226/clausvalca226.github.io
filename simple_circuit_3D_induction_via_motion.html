@@ -27,6 +27,7 @@ let multiplier = 1.1;
 let counter = 0;
 let start = false;
 let once = true;
+let forward = true;
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
 	node={	p:init_nodes[i],			// new node
@@ -39,7 +40,7 @@ for(let i=1;i<init_nodes.length;i++){
 nodes[0].prev=node; node.next=nodes[0];
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<91;i++){
+for(let i=0;i<130;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
@@ -52,9 +53,13 @@ document.body.appendChild( renderer.domElement );
 var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
+	if(start){
+		if(forward){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
+		else{item.s.position.add(item.n.prev.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
+	}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
-	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
+	if(forward){if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}}
+	else{if(item.s.position.clone().sub(item.n.prev.p).length()<0.3){item.n=item.n.prev;}}
 	item.s.position.add(velocity);
 }
 function update_nodes(item){item.p.add(velocity);}
@@ -69,7 +74,11 @@ function animate() {
 	controls.update();			
 	renderer.render( scene, camera );
 	velocity.add(dv);
-	if(velocity.length()>0.6 && once){ dv.multiplyScalar(-1); once=false;}
+	if(velocity.length()>0.6 && once){
+		dv.multiplyScalar(-1);
+		once=false;
+		forward=!forward;
+	}
 	if(velocity.length()<0.1){once=true;}
 }
 animate();
