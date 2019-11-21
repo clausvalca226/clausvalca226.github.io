@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Simple Circuit</title>
+		<style>body{ margin: 0;}canvas{ width: 100%; height: 100%;}</style>
+	</head>
+	<body>
+		<script type="module">
+import * as THREE from './three.module.js';
+import {OrbitControls} from './OrbitControls.js';
+
+// create sene and add light from above and below
+let scene = new THREE.Scene();
+	scene.add(new THREE.DirectionalLight());
+var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
+
+let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
+		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
+let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
+
+let particles = [];
+let nodes = [];
+let rings = [];
+let velocity = new THREE.Vector3(0,1,0);
+let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
+for(let i=1;i<init_nodes.length;i++){
+	node={	p:init_nodes[i],			// new node
+	      	prev:nodes[nodes.length-1],		// link to previous
+	      	next:this,				// place holder of next until next node is created
+	     };
+	nodes[nodes.length-1].next=node;		// link previous to this new node
+	nodes.push(node);
+}
+nodes[0].prev=node; node.next=nodes[0];
+
+//function add_rings(item,index){
+//	if(num_rings[index]!=0){
+//		let d=item.next.p.clone().sub(item.p).multiplyScalar(1/ (num_rings[index]+1));
+//		let p=item.p.clone();
+//		for(let i=0;i<num_rings[index];i++){
+//			p.add(d);
+//			for(let j=0;j<4;j++){
+//				temp_rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2.3,2.5,32,1,j*2*Math.PI/4+2*Math.PI/2*k/num_frames,2*Math.PI/8),
+//					  new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+//				temp_rings[temp_rings.length-1].position.set(p.x,p.y,p.z);
+//				if(d.z!=0){temp_rings[temp_rings.length-1].rotateY(Math.atan(d.x/d.z));}
+//				else{temp_rings[temp_rings.length-1].rotateY(Math.PI/2);}
+//				if(d.x<0&&d.z<0&&d.y!=0){temp_rings[temp_rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+//    				else{temp_rings[temp_rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+//				scene.add(temp_rings[temp_rings.length-1])
+//			}
+//		}
+//	}
+//}
+//let num_frames=20;
+//let k=0;
+//let temp_rings = [];
+//for(k=0;k<num_frames;k++){
+//	temp_rings = [];
+//	nodes.forEach(add_rings);
+//	rings.push(temp_rings);
+//}
+
+// create array of particles to travel circuit; they start in a row along z axis and move to first node
+for(let i=0;i<91;i++){
+	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
+	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
+	scene.add(particles[particles.length-1].s);
+}
+let node_holder = particles[particles.length-1].n;
+//let cylinder1 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,7,50),new THREE.MeshBasicMaterial({color:0x000000}));
+//	cylinder1.position.set(-10,0-2,-10);
+//	scene.add(cylinder1);
+//let cylinder2 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,3,50),new THREE.MeshBasicMaterial({color:0xffff00}));
+//	cylinder2.position.set(-10,4.85-2,-10);
+//	scene.add(cylinder2);
+//let cylinder3 = new THREE.Mesh(new THREE.CylinderGeometry(1,1,1,50),new THREE.MeshBasicMaterial({color:0x808080}));
+//	cylinder3.position.set(-10,6.15-2,-10);
+//	scene.add(cylinder3);
+
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,20,100);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
+document.body.appendChild( renderer.domElement );
+var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
+
+function update_particles(item){
+	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
+	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
+}
+function update_nodes(item){
+  item.p.add(velocity);
+ }
+
+//let counter = 0.0;
+//let show_hide = true;
+//function update_rings2(item){item.visible=show_hide;}
+//function update_rings1(item,index){
+//	if(index==parseInt(counter)){show_hide=true;}else{show_hide=false;}
+//	item.forEach(update_rings2);
+//}
+
+while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+			
+function animate() {
+	requestAnimationFrame( animate );
+  particles.forEach(update_particles);
+  nodes.forEach(update_nodes);
+	//rings.forEach(update_rings1);
+	controls.update();			renderer.render( scene, camera );
+	//counter+=0.1;				if(counter>9){counter=0;}
+}
+animate();
+</script></body></html>
