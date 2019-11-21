@@ -15,8 +15,9 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),new THREE.Vector3(10,23,10),
-		new THREE.Vector3(8,25,8),new THREE.Vector3(-8,25,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
+let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),
+		new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
+		new THREE.Vector3(-10,13,-10),new THREE.Vector3(-10,-23,-10)];
 let particles = [];
 let nodes = [];
 let velocity = new THREE.Vector3(0,0,0);
@@ -57,14 +58,6 @@ function update_particles(item){
 }
 function update_nodes(item){item.p.add(velocity);}
 
-//let counter = 0.0;
-//let show_hide = true;
-//function update_rings2(item){item.visible=show_hide;}
-//function update_rings1(item,index){
-//	if(index==parseInt(counter)){show_hide=true;}else{show_hide=false;}
-//	item.forEach(update_rings2);
-//}
-
 while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 start = true;
 			
@@ -72,19 +65,11 @@ function animate() {
 	requestAnimationFrame( animate );
   	particles.forEach(update_particles);
   	nodes.forEach(update_nodes);
-	//rings.forEach(update_rings1);
 	controls.update();			
 	renderer.render( scene, camera );
-	//counter+=0.01;				
-	//if(counter>9){counter=0;}
-	//velocity.multiplyScalar(multiplier);
 	velocity.add(dv);
-	if(velocity.length()>0.6 && once){
-		dv.multiplyScalar(-1);
-		once=false;
-	}
+	if(velocity.length()>0.6 && once){ dv.multiplyScalar(-1); once=false;}
 	if(velocity.length()<0.1){once=true;}
-	//if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
 }
 animate();
 </script></body></html>
