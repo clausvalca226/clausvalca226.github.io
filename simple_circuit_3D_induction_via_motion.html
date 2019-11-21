@@ -27,6 +27,7 @@ let multiplier = 1.1;
 let counter = 0;
 let start = false;
 let once = true;
+let once2 = true;
 let forward = true;
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
@@ -74,12 +75,8 @@ function animate() {
 	controls.update();			
 	renderer.render( scene, camera );
 	velocity.add(dv);
-	if(velocity.length()>0.6 && once){
-		dv.multiplyScalar(-1);
-		once=false;
-		forward=!forward;
-	}
-	if(velocity.length()<0.1){once=true;}
+	if(velocity.length()>0.6 && once){ dv.multiplyScalar(-1); once=false;}
+	if(velocity.length()<0.1 && !once){ once=true; forward=!forward;}
 }
 animate();
 </script></body></html>
