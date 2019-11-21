@@ -15,11 +15,11 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let dir = new THREE.Vector3(1,0,-1); let length = 25;
-for(let i=0;i<10;i++){
-	for(let j=0;j<9;j++){
+let dir = new THREE.Vector3(1,0,-1); let length = 30;
+for(let i=0;i<8;i++){
+	for(let j=0;j<10;j++){
 		//scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-20+i*2,5+j*3,20-i*2),length,0x0000ff));
-		scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-20+i*4,5+j*4,-10+i*4),length,0x0000ff));
+		scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*4,5+j*4,-10+i*4),length,0x0000ff));
 	}
 }
 			
