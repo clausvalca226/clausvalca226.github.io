@@ -16,7 +16,7 @@ let scene = new THREE.Scene();
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
 let dir = new THREE.Vector3(1,0,-1); let length = 0;
-let dl = 1; let forward2 = true; let once2 = true;
+let dl = 0.4; let forward2 = true; let once2 = true;
 let arrows = [];
 for(let i=0;i<10;i++){
 	for(let j=0;j<10;j++){
@@ -33,7 +33,7 @@ init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
 let particles = [];
 let nodes = [];
 let velocity = new THREE.Vector3(0,0,0);
-let dv = new THREE.Vector3(0,0,0);
+let dv = new THREE.Vector3(0,0.1,0);
 let start = false;
 let once = true;
 let forward = true;
@@ -69,7 +69,7 @@ function update_particles(item){
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
 	if(forward){if(item.s.position.clone().sub(item.n.p).length()<0.2){item.n=item.n.next;}}
 	else{if(item.s.position.clone().sub(item.n.prev.p).length()<0.2){item.n=item.n.prev;}}
-	item.s.position.add(velocity);
+	//item.s.position.add(velocity);
 }
 function update_nodes(item){item.p.add(velocity);}
 function update_arrows(item){item.setLength(length,length*0.2,length*0.2*0.2);}
@@ -80,7 +80,7 @@ start = true;
 function animate() {
 	requestAnimationFrame( animate );
   particles.forEach(update_particles);
-  nodes.forEach(update_nodes);
+  //nodes.forEach(update_nodes);
   arrows.forEach(update_arrows);
 	controls.update();			
 	renderer.render( scene, camera );
