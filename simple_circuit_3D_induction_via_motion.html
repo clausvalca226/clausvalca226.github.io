@@ -15,8 +15,12 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let dir = new THREE.Vector3(-1,0,1); let length = 10;
-scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-8,0,8),length,0x0000ff));
+let dir = new THREE.Vector3(-1,0,1); let length = 25;
+for(let i=0;i<9;i++){
+	for(let j=0;i<9;i++){
+		scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(8-i*2,5+j,-8+i*2),length,0x0000ff));
+	}
+}
 			
 let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),
 		new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
