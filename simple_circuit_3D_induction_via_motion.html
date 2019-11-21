@@ -47,7 +47,7 @@ document.body.appendChild( renderer.domElement );
 var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()));}
+	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/200));}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 	item.s.position.add(velocity);
@@ -75,8 +75,8 @@ function animate() {
 	//counter+=0.1;				
 	//if(counter>9){counter=0;}
 	velocity.multiplyScalar(multiplier);
-	if(velocity.length()>20){multiplier=0.7;}
-	if(velocity.length()<0.0001){multiplier=2;velocity.multiplyScalar(-1);}
+	if(velocity.length()>1){multiplier=0.9;}
+	if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
 }
 animate();
 </script></body></html>
