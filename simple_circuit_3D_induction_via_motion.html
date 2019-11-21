@@ -19,8 +19,10 @@ let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THRE
 		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
 let particles = [];
 let nodes = [];
-let velocity = new THREE.Vector3(0,0.01,0);
+let velocity = new THREE.Vector3(0,0,0);
+let dv = new THREE.Vector3(0,0.01,0);
 let multiplier = 1.1;
+let counter = 0;
 let start = false;
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
@@ -72,11 +74,12 @@ function animate() {
 	//rings.forEach(update_rings1);
 	controls.update();			
 	renderer.render( scene, camera );
-	//counter+=0.1;				
+	//counter+=0.01;				
 	//if(counter>9){counter=0;}
-	velocity.multiplyScalar(multiplier);
-	if(velocity.length()>1){multiplier=0.9;}
-	if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
+	//velocity.multiplyScalar(multiplier);
+	velocity.add(dv);
+	if(velocity.length()>1){dv.multiplyScalar(-1);}
+	//if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
 }
 animate();
 </script></body></html>
