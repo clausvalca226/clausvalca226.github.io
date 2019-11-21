@@ -50,7 +50,7 @@ document.body.appendChild( renderer.domElement );
 var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
+	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/10));}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 	item.s.position.add(velocity);
