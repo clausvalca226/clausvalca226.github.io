@@ -81,7 +81,7 @@ function animate() {
 	velocity.add(dv);
 	if(velocity.length()>0.6 && once){
 		dv.multiplyScalar(-1);
-		once;
+		once=false;
 	}
 	if(velocity.length()<0.1){once=true;}
 	//if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
