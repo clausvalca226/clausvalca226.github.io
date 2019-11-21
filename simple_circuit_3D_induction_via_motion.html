@@ -18,7 +18,8 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 let dir = new THREE.Vector3(1,0,-1); let length = 25;
 for(let i=0;i<9;i++){
 	for(let j=0;j<9;j++){
-		scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-20+i*2,5+j,20-i*2),length,0x0000ff));
+		//scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-20+i*2,5+j,20-i*2),length,0x0000ff));
+		scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(0,0,0),length,0x0000ff));
 	}
 }
 			
