@@ -19,7 +19,7 @@ let init_nodes=[new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THRE
 		new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)];
 let particles = [];
 let nodes = [];
-let velocity = new THREE.Vector3(0,0,0);
+let velocity = new THREE.Vector3(0,0.4,0);
 let dv = new THREE.Vector3(0,0.01,0);
 let multiplier = 1.1;
 let counter = 0;
@@ -78,7 +78,7 @@ function animate() {
 	//if(counter>9){counter=0;}
 	//velocity.multiplyScalar(multiplier);
 	velocity.add(dv);
-	if(velocity.length()>1){dv.multiplyScalar(-1);}
+	if(velocity.length()>0.6){dv.multiplyScalar(-1);}
 	//if(velocity.length()<0.001){multiplier=1.1;velocity.multiplyScalar(-1);}
 }
 animate();
