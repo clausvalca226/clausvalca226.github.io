@@ -40,7 +40,7 @@ for(let i=1;i<init_nodes.length;i++){
 nodes[0].prev=node; node.next=nodes[0];
 
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
-for(let i=0;i<130;i++){
+for(let i=0;i<131;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
 	particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
 	scene.add(particles[particles.length-1].s);
@@ -55,7 +55,7 @@ var controls = new OrbitControls( camera, renderer.domElement ); controls.update
 function update_particles(item){
 	if(start){
 		if(forward){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
-		else{item.s.position.add(item.n.prev.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
+		else{item.s.position.add(item.n.prev.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
 	}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
 	if(forward){if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}}
