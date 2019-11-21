@@ -18,6 +18,7 @@ var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); sc
 let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),
 		new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
 		new THREE.Vector3(-10,13,-10),new THREE.Vector3(-10,-23,-10)];
+init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
 let particles = [];
 let nodes = [];
 let velocity = new THREE.Vector3(0,0,0);
@@ -51,7 +52,7 @@ document.body.appendChild( renderer.domElement );
 var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
 
 function update_particles(item){
-	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/10));}
+	if(start){item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));}
 	else{item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));}
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 	item.s.position.add(velocity);
