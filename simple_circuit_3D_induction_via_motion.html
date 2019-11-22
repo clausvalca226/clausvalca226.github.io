@@ -24,7 +24,7 @@ let velocity = new THREE.Vector3(0,0,0);
 let dv = new THREE.Vector3(0,0.01,0);
 let start = false;
 let once = true;
-let forward = true;
+let forward = false;
 let node={p:init_nodes[0],prev:this,next:this};										nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
 	node={p:init_nodes[i],prev:nodes[nodes.length-1],next:this};		nodes[nodes.length-1].next=node;nodes.push(node);
