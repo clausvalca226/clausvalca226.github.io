@@ -18,7 +18,7 @@ let arrows = [];	let particles = []; let nodes = [];
 
 for(let i=0;i<10;i++){
 	for(let j=0;j<10;j++){
-    arrows.push(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*4,4-j*4,-10+i*4),length,0x0000ff));
+    arrows.push(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*3,4-j*3,-10+i*3),length,0x0000ff));
 		scene.add(arrows[arrows.length-1]);
 	}
 }
