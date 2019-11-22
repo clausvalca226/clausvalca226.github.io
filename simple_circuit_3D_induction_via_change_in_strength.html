@@ -17,13 +17,13 @@ let dir = new THREE.Vector3(1,0,-1); let length = 0; let dl = 0.4;	let once = tr
 let arrows = [];	let particles = []; let nodes = []; 
 
 for(let i=0;i<8;i++){
-	for(let j=0;j<10;j++){
+	for(let j=0;j<7;j++){
     arrows.push(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*3,4-j*3,-10+i*3),length,0x0000ff));
 		scene.add(arrows[arrows.length-1]);
 	}
 }
 			
-let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),
+let init_nodes=[new THREE.Vector3(-8,-15,-8),new THREE.Vector3(8,-15,8),new THREE.Vector3(10,-13,10),
 		new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
 		new THREE.Vector3(-10,13,-10),new THREE.Vector3(-10,-23,-10)];
 init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
