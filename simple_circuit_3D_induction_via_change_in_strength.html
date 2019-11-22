@@ -15,8 +15,8 @@ let scene = new THREE.Scene();
 	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 
-let dir = new THREE.Vector3(1,0,-1); let length = 0;
-let dl = 0.4; let forward2 = true; let once2 = true;
+let dir = new THREE.Vector3(1,0,-1); let length = 30;
+let dl = -0.4; let forward2 = false; let once2 = false;
 let arrows = [];
 for(let i=0;i<10;i++){
 	for(let j=0;j<10;j++){
@@ -34,8 +34,8 @@ let nodes = [];
 let velocity = new THREE.Vector3(0,0,0);
 let dv = new THREE.Vector3(0,0.01,0);
 let start = false;
-let once = true;
-let forward = true;
+let once = false;
+let forward = false;
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
 	node={p:init_nodes[i],prev:nodes[nodes.length-1],next:this,};
