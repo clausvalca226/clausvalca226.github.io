@@ -56,8 +56,8 @@ function update_particles(item){
 }
 function update_nodes(item){item.p.add(velocity);}
 
-//while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
-start = true;
+while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+//start = true;
 			
 function animate() {
 	requestAnimationFrame( animate );
