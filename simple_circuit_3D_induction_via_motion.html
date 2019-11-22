@@ -56,13 +56,13 @@ function update_particles(item){
 }
 function update_nodes(item){item.p.add(velocity);}
 
-while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+//while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 start = true;
 			
 function animate() {
 	requestAnimationFrame( animate );
-  	particles.forEach(update_particles);
-  	nodes.forEach(update_nodes);
+	particles.forEach(update_particles);
+	nodes.forEach(update_nodes);
 	controls.update();			
 	renderer.render( scene, camera );
 	velocity.add(dv);
