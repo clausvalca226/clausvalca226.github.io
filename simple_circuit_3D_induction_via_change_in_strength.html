@@ -18,7 +18,7 @@ let arrows = [];	let particles = []; let nodes = [];
 
 for(let i=0;i<8;i++){
 	for(let j=0;j<7;j++){
-    arrows.push(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*3,4-j*3,-10+i*3),length,0x0000ff));
+    arrows.push(new THREE.ArrowHelper(dir,new THREE.Vector3(-10+i*3,4-j*3,-10+i*3),length,0x0000ff));
 		scene.add(arrows[arrows.length-1]);
 	}
 }
@@ -26,7 +26,7 @@ for(let i=0;i<8;i++){
 let init_nodes=[new THREE.Vector3(-8,-15,-8),new THREE.Vector3(8,-15,8),new THREE.Vector3(10,-13,10),
 		new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
 		new THREE.Vector3(-10,13,-10),new THREE.Vector3(-10,-23,-10)];
-init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
+//init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
 
 let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 for(let i=1;i<init_nodes.length;i++){
