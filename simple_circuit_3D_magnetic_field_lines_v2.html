@@ -100,7 +100,14 @@ function update_rings1(item,index){
 while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 let init_set_string = new String('');
 function init_particles(item){
-	init_set_string = init_set_string + "new THREE.Vector3("+item.s.position.x.toString()+","+item.s.position.y.toString()+","item.s.position.z.toString()+"),";
+	init_set_string = init_set_string + 
+		"new THREE.Vector3("+
+		item.s.position.x.toString()+
+		","+
+		item.s.position.y.toString()+
+		","+
+		item.s.position.z.toString()+
+		"),";
 }
 particles.forEach(init_particles);
 document.getElementById("init_set").innerHTML = init_set_string;
