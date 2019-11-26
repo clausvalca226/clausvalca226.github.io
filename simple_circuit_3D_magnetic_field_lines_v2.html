@@ -62,6 +62,9 @@ for(k=0;k<num_frames;k++){
 	rings.push(temp_rings);
 }
 
+let ipx = []; let ipy = []; let ipz = [];
+
+
 // create array of particles to travel circuit; they start in a row along z axis and move to first node
 for(let i=0;i<91;i++){
 	particles.push({s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),n:nodes[0]});
@@ -100,14 +103,14 @@ function update_rings1(item,index){
 while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
 let init_set_string = new String('');
 function init_particles(item){
-	init_set_string = init_set_string + 
-		"new THREE.Vector3("+
+	init_set_string = init_set_string +
+		"ipx.push("+
 		item.s.position.x.toString()+
-		","+
+		");ipy.push("+
 		item.s.position.y.toString()+
-		","+
+		");ipz.push("+
 		item.s.position.z.toString()+
-		"),";
+		");";
 }
 particles.forEach(init_particles);
 document.getElementById("init_set").innerHTML = init_set_string;
