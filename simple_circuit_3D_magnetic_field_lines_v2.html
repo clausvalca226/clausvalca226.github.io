@@ -106,7 +106,7 @@ function initialize_page(){
 			");ipy.push("+item.s.position.y.toString()+
 			");ipz.push("+item.s.position.z.toString()+");";
 		let temp_node;
-		for(let l=0;l<nodes.length;l++){if(nodes[i]==item.n){init_set_string=init_set_string+"ipn.push("+l.toString()+");";break;}}
+		for(let l=0;l<nodes.length;l++){if(nodes[l]==item.n){init_set_string=init_set_string+"ipn.push("+l.toString()+");";break;}}
 	}
 	particles.forEach(init_particles);
 	document.getElementById("init_set").innerHTML = init_set_string;
