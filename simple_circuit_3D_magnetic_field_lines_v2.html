@@ -24,7 +24,9 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
-function update_rings(item){item.m.rotateOnAxis(item.v,2*Math.PI/128);}
+function update_rings(item){
+	item.m.rotateOnAxis(item.v,2*Math.PI/200);
+}
 
 function initialize_page(){
 	let init_nodes=[
@@ -41,7 +43,7 @@ function initialize_page(){
 	nodes[0].prev=node; node.next=nodes[0];
 	function add_rings(item,index){
 		if(num_rings[index]!=0){
-			let d=item.next.p.clone().sub(item.p).multiplyScalar(1/ (num_rings[index]+1));
+			let d=item.next.p.clone().sub(item.p).multiplyScalar(1/(num_rings[index]+1));
 			let p=item.p.clone();
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
