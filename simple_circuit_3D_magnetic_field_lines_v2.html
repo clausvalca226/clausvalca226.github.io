@@ -24,7 +24,7 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
-function update_rings(item){item.m.rotateOnAxis(item.v,2*Math.PI/64);}
+function update_rings(item){item.m.rotateOnAxis(item.v,2*Math.PI/128);}
 
 function initialize_page(){
 	let init_nodes=[
