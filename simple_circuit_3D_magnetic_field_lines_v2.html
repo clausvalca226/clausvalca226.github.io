@@ -53,7 +53,7 @@ function initialize_page(){
 							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
 							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
 						),
-						v:d.clone().cross(new THREE.Vector3(1,0,0)).normalize()
+						v:d.clone().cross(new THREE.Vector3(1,1,1)).normalize()
 					});
 					rings[rings.length-1].m.position.set(p.x,p.y,p.z);
 					if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
