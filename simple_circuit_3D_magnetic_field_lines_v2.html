@@ -8,7 +8,7 @@ import {OrbitControls} from './OrbitControls.js';
 
 // create sene and add light from above and below
 let scene = new THREE.Scene();
-	//scene.add(new THREE.DirectionalLight());
+	scene.add(new THREE.DirectionalLight());
 var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
 let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
 document.body.appendChild( renderer.domElement );
@@ -26,9 +26,12 @@ function update_particles(item){
 
 let counter = 0.0;
 let show_hide = true;
-function update_rings2(item){item.visible=show_hide;}
+function update_rings2(item){
+	//item.visible=show_hide;
+	item.r.rotation.setEulerFromQuaternion(item.q);
+}
 function update_rings1(item,index){
-	if(index==parseInt(counter)){show_hide=true;}else{show_hide=false;}
+	//if(index==parseInt(counter)){show_hide=true;}else{show_hide=false;}
 	item.forEach(update_rings2);
 }
 
@@ -51,19 +54,26 @@ function initialize_page(){
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
 				for(let j=0;j<4;j++){
-					temp_rings.push(new THREE.Mesh(new THREE.RingBufferGeometry(2.3,2.5,32,1,j*2*Math.PI/4+2*Math.PI/2*k/num_frames,2*Math.PI/8),
-						  new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
-					temp_rings[temp_rings.length-1].position.set(p.x,p.y,p.z);
-					if(d.z!=0){temp_rings[temp_rings.length-1].rotateY(Math.atan(d.x/d.z));}
-					else{temp_rings[temp_rings.length-1].rotateY(Math.PI/2);}
-					if(d.x<0&&d.z<0&&d.y!=0){temp_rings[temp_rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-    					else{temp_rings[temp_rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					scene.add(temp_rings[temp_rings.length-1])
+					
+temp_rings.push({
+	r:new THREE.Mesh(
+		new THREE.RingBufferGeometry(2.3,2.5,32,1,j*2*Math.PI/4+2*Math.PI/2*k/num_frames,2*Math.PI/8),
+		new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
+	),
+	q:new THREE.Quaternion().setFromAxisAngle(d,2*Math.PI/32)
+});
+temp_rings[temp_rings.length-1].r.position.set(p.x,p.y,p.z);
+if(d.z!=0){temp_rings[temp_rings.length-1].r.rotateY(Math.atan(d.x/d.z));}
+else{temp_rings[temp_rings.length-1].r.rotateY(Math.PI/2);}
+if(d.x<0&&d.z<0&&d.y!=0){temp_rings[temp_rings.length-1].r.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+else{temp_rings[temp_rings.length-1].r.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+scene.add(temp_rings[temp_rings.length-1].r)
+					
 				}
 			}
 		}
 	}
-	let num_frames=20;
+	let num_frames=1;
 	let k=0;
 	let temp_rings = [];
 	for(k=0;k<num_frames;k++){
