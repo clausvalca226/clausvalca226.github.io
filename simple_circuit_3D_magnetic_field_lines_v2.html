@@ -48,13 +48,16 @@ function initialize_page(){
 				for(let j=0;j<4;j++){
 					rings.push({
 						m:new THREE.Mesh(
-							new THREE.RingBufferGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
+							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
 							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
 						),
 						v:d.clone().normalize()
 					});
 					rings[rings.length-1].m.position.set(p.x,p.y,p.z);
-					if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
+					if(d.z!=0){
+						rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));
+						rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));
+					}
 					else{rings[rings.length-1].m.rotateY(Math.PI/2);}
 					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].m.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
 					else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
