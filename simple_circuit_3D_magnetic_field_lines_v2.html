@@ -62,12 +62,12 @@ function initialize_page(){
 						),
 						v:d
 					});
-					rings.m[rings.m.length-1].position.set(p.x,p.y,p.z);
-					if(d.z!=0){rings.m[rings.m.length-1].rotateY(Math.atan(d.x/d.z));}
-					else{rings.m[rings.m.length-1].rotateY(Math.PI/2);}
-					if(d.x<0&&d.z<0&&d.y!=0){rings.m[rings.m.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					else{rings.m[rings.m.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					scene.add(rings.m[rings.m.length-1])
+					rings[ringslength-1].m.position.set(p.x,p.y,p.z);
+					if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
+					else{rings[rings.length-1].m.rotateY(Math.PI/2);}
+					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].m.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					scene.add(rings[rings.length-1].m)
 					
 				}
 			}
