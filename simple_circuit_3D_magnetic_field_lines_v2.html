@@ -25,7 +25,7 @@ function update_particles(item){
 }
 
 function update_rings(item){
-	item.m.rotate.x += item.v.x; item.m.rotate.y += item.v.y; item.m.rotate.z += item.v.z;
+	item.m.rotateX(item.v.x); item.m.rotateY(item.v.y); item.m.rotateZ(item.v.z);
 }
 
 function initialize_page(){
