@@ -24,9 +24,7 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
-function update_rings(item){
-	item.m.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/100);
-}
+function update_rings(item){item.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/100);}
 
 function initialize_page(){
 	let init_nodes=[
@@ -34,13 +32,10 @@ function initialize_page(){
 		new THREE.Vector3(10,8,10),new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),
 		new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)
 	];
-	//let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
-	let num_rings=[1,0,1,0,1,0,0,0];	// must be same size as init_nodes
-	
+	let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
 	let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 	for(let i=1;i<init_nodes.length;i++){
-		node={p:init_nodes[i], prev:nodes[nodes.length-1], next:this}; 
-		nodes[nodes.length-1].next=node; nodes.push(node);
+		node={p:init_nodes[i], prev:nodes[nodes.length-1], next:this};nodes[nodes.length-1].next=node; nodes.push(node);
 	}
 	nodes[0].prev=node; node.next=nodes[0];
 	function add_rings(item,index){
@@ -50,19 +45,13 @@ function initialize_page(){
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
 				for(let j=0;j<4;j++){
-					rings.push({
-						m:new THREE.Mesh(
-							new THREE.RingGeometry(2.2,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
-							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
-						),
-						v:d.clone()
-					});
-					rings[rings.length-1].m.position.set(p.x,p.y,p.z);
-					if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
-					else{rings[rings.length-1].m.rotateY(Math.PI/2);}
-					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].m.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					scene.add(rings[rings.length-1].m);
+					rings.push(new THREE.Mesh(new THREE.RingGeometry(2.2,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+					rings[rings.length-1].position.set(p.x,p.y,p.z);
+					if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
+					else{rings[rings.length-1].rotateY(Math.PI/2);}
+					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					scene.add(rings[rings.length-1]);
 				}
 			}
 		}
