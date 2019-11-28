@@ -53,14 +53,17 @@ function initialize_page(){
 							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
 							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
 						),
-						v:d.clone().cross(p).normalize()
+						v:p.clone().add(d.clone().cross(p).normalize()),
+						p:new THREE.Mesh(new THREE.SphereGeometry(0.5),	new THREE.MeshStandardMaterial({color: 0xff0000}))
 					});
 					rings[rings.length-1].m.position.set(p.x,p.y,p.z);
-					//if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
-					//else{rings[rings.length-1].m.rotateY(Math.PI/2);}
-					//if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].m.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					//else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
-					scene.add(rings[rings.length-1].m)
+					if(d.z!=0){rings[rings.length-1].m.rotateY(Math.atan(d.x/d.z));}
+					else{rings[rings.length-1].m.rotateY(Math.PI/2);}
+					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].m.rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					scene.add(rings[rings.length-1].m);
+					rings[rings.length-1].p.position.set(rings[rings.length-1].v.x,rings[rings.length-1].v.y,rings[rings.length-1].v.z);
+					
 					
 				}
 			}
