@@ -24,7 +24,7 @@ function update_particles(item){
 	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
 }
 
-function update_rings(item){item.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/100);}
+function update_rings(item){item.rotateOnAxis(new THREE.Vector3(0,0,1),-Math.PI/100);}
 
 function initialize_page(){
 	let init_nodes=[
