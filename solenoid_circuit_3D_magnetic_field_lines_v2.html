@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Loop Circuit</title>
+	<style>body{ margin: 0;}canvas{ width: 100%; height: 100%;}</style></head>
+	<body><p id="init_set"></p>
+<script type="module">
+import * as THREE from './three.module.js';
+import {OrbitControls} from './OrbitControls.js';
+
+// create sene and add light from above and below
+let scene = new THREE.Scene();
+	scene.add(new THREE.DirectionalLight());
+var light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
+document.body.appendChild( renderer.domElement );
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,20,100);
+var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
+
+let particles = [];
+let nodes = [];
+let rings = [];
+	
+function update_particles(item){
+	item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.1));
+	if(item.s.position.clone().sub(item.n.p).length()<0.3){item.n=item.n.next;}
+}
+
+function update_rings(item){item.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/100);}
+
+function initialize_page(){
+	let num_rings=[];
+	let init_nodes=[];
+	init_nodes.push(new THREE.Vector3(-8,-10,-8));num_rings.push(10);
+	init_nodes.push(new THREE.Vector3(8,-10,8));	num_rings.push(4);
+	init_nodes.push(new THREE.Vector3(10,-8,10));	num_rings.push(1);
+	let center = new THREE.Vector3(12.5,-8,12.5);
+	let radius = new THREE.Vector3(10,-8,10);radius.sub(center);
+	let circle_steps = 10
+	for(let i=0;i<circle_steps*5;i++){
+		center.add(new THREE.Vector3(0,0.1,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
+		init_nodes.push(center.clone().add(radius));	num_rings.push(1);
+	}
+	num_rings[num_rings.length-1]=5;
+	init_nodes.push(new THREE.Vector3(10,8,10));num_rings.push(4);
+	init_nodes.push(new THREE.Vector3(8,10,8));num_rings.push(10);
+	init_nodes.push(new THREE.Vector3(-8,10,-8));num_rings.push(4);
+	init_nodes.push(new THREE.Vector3(-10,8,-10));num_rings.push(0);
+	init_nodes.push(new THREE.Vector3(-10,-8,-10));num_rings.push(4);
+
+	
+	let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
+	for(let i=1;i<init_nodes.length;i++){
+		node={p:init_nodes[i], prev:nodes[nodes.length-1], next:this};nodes[nodes.length-1].next=node; nodes.push(node);
+	}
+	nodes[0].prev=node; node.next=nodes[0];
+	function add_rings(item,index){
+		if(num_rings[index]!=0){
+			let d=item.next.p.clone().sub(item.p).multiplyScalar(1/(num_rings[index]+1));
+			let p=item.p.clone();
+			for(let i=0;i<num_rings[index];i++){
+				p.add(d);
+				for(let j=0;j<4;j++){
+					rings.push(new THREE.Mesh(new THREE.RingGeometry(2.2,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})));
+					rings[rings.length-1].position.set(p.x,p.y,p.z);
+					if(d.z!=0){rings[rings.length-1].rotateY(Math.atan(d.x/d.z));}
+					else{rings[rings.length-1].rotateY(Math.PI/2);}
+					if(d.x<0&&d.z<0&&d.y!=0){rings[rings.length-1].rotateX(Math.atan(d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					else{rings[rings.length-1].rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
+					scene.add(rings[rings.length-1]);
+				}
+			}
+		}
+	}
+	nodes.forEach(add_rings);
+
+	// after customize
+	//let ipx = []; let ipy = []; let ipz = []; let ipn = [];
+	//ipx.push(-8.504810690135312);ipy.push(-9.430613498304485);ipz.push(-8.504810691688528);ipn.push(0);ipx.push(-9.002188888444214);ipy.push(-8.87015135604981);ipz.push(-9.002188890596852);ipn.push(0);ipx.push(-9.55510664815821);ipy.push(-8.246802416311883);ipz.push(-9.555106651498468);ipn.push(0);ipx.push(-9.99540900497492);ipy.push(-7.54814390764379);ipz.push(-9.99540901267163);ipn.push(17);ipx.push(-9.98524975020249);ipy.push(-6.548247123255025);ipz.push(-9.98524977493098);ipn.push(17);ipx.push(-9.97509049543006);ipy.push(-5.54835033886626);ipz.push(-9.97509053719033);ipn.push(17);ipx.push(-9.964931240657629);ipy.push(-4.548453554477494);ipz.push(-9.96493129944968);ipn.push(17);ipx.push(-9.954771985885198);ipy.push(-3.548556770088727);ipz.push(-9.95477206170903);ipn.push(17);ipx.push(-9.944612731112759);ipy.push(-2.5486599856999574);ipz.push(-9.944612823968379);ipn.push(17);ipx.push(-9.93445347634032);ipy.push(-1.5487632013111887);ipz.push(-9.934453586227729);ipn.push(17);ipx.push(-9.92429422156788);ipy.push(-0.5488664169224212);ipz.push(-9.924294348487079);ipn.push(17);ipx.push(-9.914144565762124);ipy.push(0.4510153183997388);ipz.push(-9.91414470890689);ipn.push(17);ipx.push(-9.903986428386704);ipy.push(1.4509121254924557);ipz.push(-9.903986588467905);ipn.push(17);ipx.push(-9.893828291011284);ipy.push(2.450808932585172);ipz.push(-9.89382846802892);ipn.push(17);ipx.push(-9.883670153635864);ipy.push(3.450705739677887);ipz.push(-9.883670347589934);ipn.push(17);ipx.push(-9.873512016260444);ipy.push(4.450602546770604);ipz.push(-9.873512227150949);ipn.push(17);ipx.push(-9.863353878885023);ipy.push(5.450499353863323);ipz.push(-9.863354106711963);ipn.push(17);ipx.push(-9.853195741509603);ipy.push(6.450396160956043);ipz.push(-9.853195986272981);ipn.push(17);ipx.push(-9.843037604134183);ipy.push(7.450292968048762);ipz.push(-9.843037865834004);ipn.push(17);ipx.push(-9.657855376686532);ipy.push(8.313258045395221);ipz.push(-9.657855947136477);ipn.push(16);ipx.push(-9.064283605737009);ipy.push(8.856715753333736);ipz.push(-9.064285165835663);ipn.push(16);ipx.push(-8.470711834787485);ipy.push(9.400173461272251);ipz.push(-8.470714384534851);ipn.push(16);ipx.push(-7.8771400638379605);ipy.push(9.943631169210766);ipz.push(-7.87714360323404);ipn.push(16);ipx.push(-7.181400041123384);ipy.push(9.990911518685467);ipz.push(-7.181416386251847);ipn.push(15);ipx.push(-6.474307990434912);ipy.push(9.983061050553076);ipz.push(-6.4743384541939495);ipn.push(15);ipx.push(-5.767215939746441);ipy.push(9.975210582420685);ipz.push(-5.767260522136054);ipn.push(15);ipx.push(-5.060123889057969);ipy.push(9.967360114288287);ipz.push(-5.060182590078158);ipn.push(15);ipx.push(-4.353031838369498);ipy.push(9.959509646155887);ipz.push(-4.353104658020262);ipn.push(15);ipx.push(-3.645939787681026);ipy.push(9.951659178023487);ipz.push(-3.6460267259623658);ipn.push(15);ipx.push(-2.9388477369925545);ipy.push(9.943808709891087);ipz.push(-2.9389487939044683);ipn.push(15);ipx.push(-2.231755686304083);ipy.push(9.935958241758687);ipz.push(-2.231870861846571);ipn.push(15);ipx.push(-1.5246636356156116);ipy.push(9.928107773626287);ipz.push(-1.524792929788673);ipn.push(15);ipx.push(-0.8175715849271398);ipy.push(9.920257305493887);ipz.push(-0.817714997730775);ipn.push(15);ipx.push(-0.11047953423866753);ipy.push(9.912406837361488);ipz.push(-0.11063706567287707);ipn.push(15);ipx.push(0.5966125164498046);ipy.push(9.904556369229088);ipz.push(0.5964408663850209);ipn.push(15);ipx.push(1.3037045671382765);ipy.push(9.896705901096688);ipz.push(1.3035187984429188);ipn.push(15);ipx.push(2.010796617826748);ipy.push(9.888855432964288);ipz.push(2.0105967305008168);ipn.push(15);ipx.push(2.7178886685152195);ipy.push(9.881004964831888);ipz.push(2.7176746625587165);ipn.push(15);ipx.push(3.424980719203691);ipy.push(9.873154496699488);ipz.push(3.4247525946166166);ipn.push(15);ipx.push(4.132072769892162);ipy.push(9.865304028567088);ipz.push(4.131830526674516);ipn.push(15);ipx.push(4.839164820580634);ipy.push(9.857453560434688);ipz.push(4.838908458732412);ipn.push(15);ipx.push(5.546256871269105);ipy.push(9.849603092302289);ipz.push(5.545986390790308);ipn.push(15);ipx.push(6.253348921957577);ipy.push(9.841752624169889);ipz.push(6.2530643228482035);ipn.push(15);ipx.push(6.960440972646048);ipy.push(9.833902156037489);ipz.push(6.960142254906099);ipn.push(15);ipx.push(7.66753302333452);ipy.push(9.826051687905089);ipz.push(7.667220186963995);ipn.push(15);ipx.push(8.329798408946305);ipy.push(9.63580829307412);ipz.push(8.329143430404699);ipn.push(14);ipx.push(8.887468242712487);ipy.push(9.019981402613155);ipz.push(8.885705733738622);ipn.push(14);ipx.push(9.445138076478674);ipy.push(8.404154512152175);ipz.push(9.442268037072544);ipn.push(14);ipx.push(10.002807910244854);ipy.push(7.788327621691199);ipz.push(9.998830340406467);ipn.push(14);ipx.push(10.016071900518297);ipy.push(6.788430857829294);ipz.push(9.9933051091423);ipn.push(13);ipx.push(10.029335890791739);ipy.push(5.788534093967389);ipz.push(9.987779877878133);ipn.push(13);ipx.push(10.04259988106518);ipy.push(4.788637330105484);ipz.push(9.982254646613965);ipn.push(13);ipx.push(10.055863871338623);ipy.push(3.7887405662435802);ipz.push(9.976729415349798);ipn.push(13);ipx.push(10.069127861612051);ipy.push(2.7888438023816797);ipz.push(9.97120418408563);ipn.push(13);ipx.push(10.082391851885484);ipy.push(1.7889470385197788);ipz.push(9.965678952821472);ipn.push(13);ipx.push(10.095655842158918);ipy.push(0.7890502746578768);ipz.push(9.960153721557313);ipn.push(13);ipx.push(10.10891983243235);ipy.push(-0.2108464892040249);ipz.push(9.954628490293155);ipn.push(13);ipx.push(10.122183822705793);ipy.push(-1.2107432530659268);ipz.push(9.949103259028993);ipn.push(13);ipx.push(10.135447812979226);ipy.push(-2.2106400169278286);ipz.push(9.943578027764834);ipn.push(13);ipx.push(10.14871180325266);ipy.push(-3.210536780789729);ipz.push(9.938052796500676);ipn.push(13);ipx.push(10.161975793526093);ipy.push(-4.2104335446516306);ipz.push(9.932527565236517);ipn.push(13);ipx.push(10.175239783799526);ipy.push(-5.2103303085135355);ipz.push(9.927002333972359);ipn.push(13);ipx.push(10.18850377407296);ipy.push(-6.2102270723754405);ipz.push(9.9214771027082);ipn.push(13);ipx.push(10.38353358034082);ipy.push(-7.019540219082907);ipz.push(9.840235729575355);ipn.push(12);ipx.push(11.305626650586396);ipy.push(-7.066518897172618);ipz.push(9.456129788967756);ipn.push(12);ipx.push(12.227719720831974);ipy.push(-7.113497575262328);ipz.push(9.07202384836017);ipn.push(12);ipx.push(13.201624686847428);ipy.push(-7.160311673665413);ipz.push(9.294099415141266);ipn.push(11);ipx.push(14.175529652862872);ipy.push(-7.207125772068501);ipz.push(9.516174981922362);ipn.push(11);ipx.push(14.87126004433866);ipy.push(-7.25396389474445);ipz.push(10.211928632968824);ipn.push(10);ipx.push(15.5348200274396);ipy.push(-7.300701160005053);ipz.push(10.958590388292551);ipn.push(10);ipx.push(15.732396536172143);ipy.push(-7.347620038510804);ipz.push(11.904403111405342);ipn.push(9);ipx.push(15.813477176312597);ipy.push(-7.394584320327842);ipz.push(12.900003576465407);ipn.push(9);ipx.push(15.539099526972755);ipy.push(-7.441447827120947);ipz.push(13.813102305616795);ipn.push(8);ipx.push(15.027749684646018);ipy.push(-7.488244150564768);ipz.push(14.671199877495765);ipn.push(8);ipx.push(14.314888273286774);ipy.push(-7.534995179978913);ipz.push(15.301333612531256);ipn.push(7);ipx.push(13.400515292895063);ipy.push(-7.581700915363382);ipz.push(15.703503510723264);ipn.push(7);ipx.push(12.462895551796816);ipy.push(-7.628526363519533);ipz.push(15.853544104088398);ipn.push(6);ipx.push(11.490405669638768);ipy.push(-7.675531380833205);ipz.push(15.625390740213215);ipn.push(6);ipx.push(10.580417143047992);ipy.push(-7.722636474839621);ipz.push(15.292912650556444);ipn.push(5);ipx.push(9.920434038726299);ipy.push(-7.770141875617002);ipz.push(14.543135657773325);ipn.push(5);ipx.push(9.31664198409552);ipy.push(-7.818309573745914);ipz.push(13.76896575076671);ipn.push(4);ipx.push(9.21856937668301);ipy.push(-7.872437948038567);ipz.push(12.775259615749023);ipn.push(4);ipx.push(9.1204967692705);ipy.push(-7.926566322331227);ipz.push(11.78155348073133);ipn.push(4);ipx.push(9.434134792709292);ipy.push(-8.0326996992861);ipz.push(10.848373224049892);ipn.push(3);ipx.push(9.793518441798216);ipy.push(-8.144611409870114);ipz.push(9.9219180649614);ipn.push(3);ipx.push(9.295100739045875);ipy.push(-8.64397248597685);ipz.push(9.294339154358653);ipn.push(2);ipx.push(8.701371774977822);ipy.push(-9.18638349158611);ipz.push(8.69996871580987);ipn.push(2);ipx.push(8.10764281090975);ipy.push(-9.728794497195379);ipz.push(8.105598277261052);ipn.push(2);ipx.push(7.459427699345115);ipy.push(-10);ipz.push(7.452670545586889);ipn.push(1);ipx.push(6.756726440283944);ipy.push(-10);ipz.push(6.741185520787403);ipn.push(1);ipx.push(6.054025181222774);ipy.push(-10);ipz.push(6.0297004959879015);ipn.push(1);ipx.push(5.351323922161634);ipy.push(-10);ipz.push(5.318215471188439);ipn.push(1);ipx.push(4.648622663100484);ipy.push(-10);ipz.push(4.606730446388948);ipn.push(1);ipx.push(3.9459214040393342);ipy.push(-10);ipz.push(3.8952454215894563);ipn.push(1);ipx.push(3.243220144978167);ipy.push(-10);ipz.push(3.18376039678994);ipn.push(1);ipx.push(2.5405188859169994);ipy.push(-10);ipz.push(2.4722753719904267);ipn.push(1);ipx.push(1.8378176268558415);ipy.push(-10);ipz.push(1.760790347190917);ipn.push(1);ipx.push(1.1351163677946896);ipy.push(-10);ipz.push(1.049305322391402);ipn.push(1);ipx.push(0.4324151087335561);ipy.push(-10);ipz.push(0.3378202975919167);ipn.push(1);ipx.push(-0.27028615032757863);ipy.push(-10);ipz.push(-0.3736647272075942);ipn.push(1);ipx.push(-0.972987409388711);ipy.push(-10);ipz.push(-1.0851497520071096);ipn.push(1);ipx.push(-1.675688668449852);ipy.push(-10);ipz.push(-1.7966347768066377);ipn.push(1);ipx.push(-2.378389927510998);ipy.push(-10);ipz.push(-2.508119801606165);ipn.push(1);ipx.push(-3.0810911865721513);ipy.push(-10);ipz.push(-3.2196048264056962);ipn.push(1);ipx.push(-3.783792445633278);ipy.push(-10);ipz.push(-3.931089851205227);ipn.push(1);ipx.push(-4.486493704694398);ipy.push(-10);ipz.push(-4.6425748760047325);ipn.push(1);ipx.push(-5.189194963755519);ipy.push(-10);ipz.push(-5.3540599008042555);ipn.push(1);ipx.push(-5.891896222816639);ipy.push(-10);ipz.push(-6.065544925603795);ipn.push(1);ipx.push(-6.594597481877759);ipy.push(-10);ipz.push(-6.777029950403335);ipn.push(1);ipx.push(-7.29729874093888);ipy.push(-10);ipz.push(-7.488514975202875);ipn.push(1);ipx.push(-8);ipy.push(-10);ipz.push(-8.200000000002415);ipn.push(1);
+	for(let i=0;i<200;i++){
+	//for(let i=0;i<ipx.length;i++){
+		particles.push({
+			s:new THREE.Mesh(new THREE.SphereGeometry(0.5),	new THREE.MeshStandardMaterial({color: 0xff0000})),
+			n:nodes[0]
+			//n:nodes[ipn[i]]
+		});
+		// to create initialization, use next line and comment out the one after
+		particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
+		//particles[particles.length-1].s.position.set(ipx[i],ipy[i],ipz[i]);
+		scene.add(particles[particles.length-1].s);
+	}
+	let cylinder1 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,7,50),new THREE.MeshBasicMaterial({color:0x000000}));
+		cylinder1.position.set(-10,0-2,-10);
+		scene.add(cylinder1);
+	let cylinder2 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,3,50),new THREE.MeshBasicMaterial({color:0xffff00}));
+		cylinder2.position.set(-10,4.85-2,-10);
+		scene.add(cylinder2);
+	let cylinder3 = new THREE.Mesh(new THREE.CylinderGeometry(1,1,1,50),new THREE.MeshBasicMaterial({color:0x808080}));
+		cylinder3.position.set(-10,6.15-2,-10);
+		scene.add(cylinder3);
+	//use below lines to get initial positions of particles
+	let node_holder = particles[particles.length-1].n;
+	while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+	let init_set_string = new String('');
+	function init_particles(item){
+	init_set_string = init_set_string+
+			"ipx.push("+item.s.position.x.toString()+
+			");ipy.push("+item.s.position.y.toString()+
+			");ipz.push("+item.s.position.z.toString()+");";
+		let temp_node;
+		for(let l=0;l<nodes.length;l++){if(nodes[l]==item.n){init_set_string=init_set_string+"ipn.push("+l.toString()+");";break;}}
+	}
+	particles.forEach(init_particles);
+	document.getElementById("init_set").innerHTML = init_set_string;
+}
+initialize_page();
+
+function animate() {
+	requestAnimationFrame(animate);
+	particles.forEach(update_particles);	rings.forEach(update_rings);
+	controls.update();			renderer.render( scene, camera );
+	//counter+=0.1;				if(counter>9){counter=0;}
+}
+animate();
+</script></body></html>
