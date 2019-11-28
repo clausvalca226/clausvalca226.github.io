@@ -55,7 +55,7 @@ function initialize_page(){
 							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/4),//8),
 							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
 						),
-						c:d.clone().cross(p).normalize(),
+						c:d.clone().normalize(),
 						v:p.clone().add(d.clone().cross(p).normalize().multiplyScalar(2)),
 						p:new THREE.Mesh(new THREE.SphereGeometry(0.1),	new THREE.MeshStandardMaterial({color: 0xff0000}))
 					});
@@ -67,7 +67,7 @@ function initialize_page(){
 					scene.add(rings[rings.length-1].m);
 					rings[rings.length-1].p.position.set(rings[rings.length-1].v.x,rings[rings.length-1].v.y,rings[rings.length-1].v.z);
 					scene.add(rings[rings.length-1].p);
-					rings[rings.length-1].m.rotateOnAxis(rings[rings.length-1].c,2*Math.PI/20);
+					rings[rings.length-1].m.rotateOnAxis(rings[rings.length-1].c,2*Math.PI/40);
 				}
 			}
 		}
