@@ -25,7 +25,7 @@ function update_particles(item){
 }
 
 function update_rings(item){
-	item.m.rotateX(item.v.x); item.m.rotateY(item.v.y); item.m.rotateZ(item.v.z);
+	item.m.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/100);
 }
 
 function initialize_page(){
