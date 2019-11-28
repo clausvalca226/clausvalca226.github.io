@@ -63,7 +63,7 @@ function initialize_page(){
 					else{rings[rings.length-1].m.rotateX(Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z)));}
 					scene.add(rings[rings.length-1].m);
 					rings[rings.length-1].p.position.set(rings[rings.length-1].v.x,rings[rings.length-1].v.y,rings[rings.length-1].v.z);
-					
+					scene.add(rings[rings.length-1].p);
 					
 				}
 			}
