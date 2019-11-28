@@ -34,7 +34,9 @@ function initialize_page(){
 		new THREE.Vector3(10,8,10),new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),
 		new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10,-8,-10)
 	];
-	let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
+	//let num_rings=[10,4,10,4,10,4,0,4];	// must be same size as init_nodes
+	let num_rings=[1,0,0,0,0,0,0,0];	// must be same size as init_nodes
+	
 	let node={p:init_nodes[0],prev:this,next:this}; nodes.push(node);
 	for(let i=1;i<init_nodes.length;i++){
 		node={p:init_nodes[i], prev:nodes[nodes.length-1], next:this}; 
@@ -50,7 +52,7 @@ function initialize_page(){
 				for(let j=0;j<4;j++){
 					rings.push({
 						m:new THREE.Mesh(
-							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/8),
+							new THREE.RingGeometry(0,2.5,32,1,j*2*Math.PI/4,2*Math.PI/4),//8),
 							new THREE.MeshBasicMaterial({color:0x3291a8,side:THREE.DoubleSide})
 						),
 						c:d.clone().cross(p).normalize(),
