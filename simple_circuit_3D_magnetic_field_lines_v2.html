@@ -44,8 +44,8 @@ function initialize_page(){
 			let rX = 0; let rY = 0; let rZ = 0;
 			if(d.z!=0){	if(d.z<0){rY += Math.PI;}	rY += Math.atan(d.x/d.z);	}
 			else {		if(d.x<0){rY -= Math.PI/2;} else{rY+= Math.PI/2;}		}
-			if((d.x!=0)&&(d.z!=0)){rX+=Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z));		}
-			else {		if(d.y<0){rX-=Math.PI/2;} else{rX+=Math.PI/2;}			}
+			if((d.x==0)&&(d.z==0)){		if(d.y<0){rX-=Math.PI/2;} else{rX+=Math.PI/2;}	}
+			else {				rX+=Math.atan(-d.y/Math.sqrt(d.x*d.x+d.z*d.z));	}
 			let p=item.p.clone();
 			for(let i=0;i<num_rings[index];i++){
 				p.add(d);
