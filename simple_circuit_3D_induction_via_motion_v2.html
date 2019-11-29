@@ -1,0 +1,96 @@
+<!DOCTYPE html><html><head>
+		<meta charset="utf-8"><title>Induction Example</title>
+		<style>body{ margin: 0;}canvas{ width: 100%; height: 100%;}</style>
+</head><body><p id="init_set"></p>
+<script type="module">
+import * as THREE from './three.module.js';
+import {OrbitControls} from './OrbitControls.js';
+
+let scene = new THREE.Scene();
+let light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(0,-1,0); scene.add(light);
+	light=new THREE.DirectionalLight(0xFFFFFF,1); light.position.set(-1,0,0); scene.add(light);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize( window.innerWidth, window.innerHeight ); renderer.setClearColor(0xffffff,1);
+document.body.appendChild( renderer.domElement );
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,40,100);
+var controls = new OrbitControls( camera, renderer.domElement ); controls.update(); renderer.render( scene, camera );
+
+let dir = new THREE.Vector3(1,0,-1); let length = 30;
+for(let i=0;i<10;i++){for(let j=0;j<10;j++){scene.add(new THREE.ArrowHelper(dir,new THREE.Vector3(-25+i*4,5+j*4,-10+i*4),length,0x0000ff));}}
+let particles = []; let nodes = []; let velocity = new THREE.Vector3(0,0,0); let dv = new THREE.Vector3(0,0.01,0);
+let start = false; let once = true; let forward = false;
+
+function update_particles(item){
+	if(start){
+		if(forward){
+			item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));
+			if(item.s.position.clone().sub(item.n.p).length()<0.2){item.n=item.n.next;}
+		}
+		else{
+			item.s.position.add(item.n.prev.p.clone().sub(item.s.position).normalize().multiplyScalar(velocity.length()/2));
+			if(item.s.position.clone().sub(item.n.prev.p).length()<0.2){item.n=item.n.prev;}
+		}
+	}
+	else{
+		item.s.position.add(item.n.p.clone().sub(item.s.position).normalize().multiplyScalar(0.2));
+		if(item.s.position.clone().sub(item.n.p).length()<0.2){item.n=item.n.next;}
+	}
+	item.s.position.add(velocity);
+}
+function update_nodes(item){item.p.add(velocity);}
+
+function initialize_page(){
+	let init_nodes=[new THREE.Vector3(-8,-25,-8),new THREE.Vector3(8,-25,8),new THREE.Vector3(10,-23,10),
+					new THREE.Vector3(10,13,10),new THREE.Vector3(8,15,8),new THREE.Vector3(-8,15,-8),
+					new THREE.Vector3(-10,13,-10),new THREE.Vector3(-10,-23,-10)];
+	init_nodes.forEach(function(item){item.add(new THREE.Vector3(0,-10,0));});
+	let node={p:init_nodes[0],prev:this,next:this};										nodes.push(node);
+	for(let i=1;i<init_nodes.length;i++){
+		node={p:init_nodes[i],prev:nodes[nodes.length-1],next:this};		nodes[nodes.length-1].next=node;nodes.push(node);
+	}
+	nodes[0].prev=node; node.next=nodes[0];
+
+	//after customization
+	//let ipx = []; let ipy = []; let ipz = []; let ipn = [];
+	//ipx.push(-5.041301050761061);ipy.push(-4.61085615832909);ipz.push(-15.04130105076105);ipn.push(7);ipx.push(-5.027091955941888);ipy.push(-3.9394375975349445);ipz.push(-15.027091955941877);ipn.push(7);ipx.push(-5.038080620269705);ipy.push(-3.9131355917705744);ipz.push(-15.038080620269712);ipn.push(7);ipx.push(-5.027104651066473);ipy.push(-3.9394078309790905);ipz.push(-15.027104651066464);ipn.push(7);ipx.push(-5.041304020188958);ipy.push(-4.610849281118103);ipz.push(-15.041304020188951);ipn.push(7);ipx.push(-4.943118494029739);ipy.push(-5.169026605369595);ipz.push(-14.943118494029738);ipn.push(7);ipx.push(-5.045342292574165);ipy.push(-6.011973159800348);ipz.push(-15.045342292574178);ipn.push(7);ipx.push(-5.046158143445826);ipy.push(-6.714830056372431);ipz.push(-15.04615814344582);ipn.push(7);ipx.push(-5.051146506614331);ipy.push(-7.761693549131734);ipz.push(-15.051146506614318);ipn.push(7);ipx.push(-5.05154439849342);ipy.push(-8.464994577964434);ipz.push(-15.05154439849342);ipn.push(7);ipx.push(-5.055964881974342);ipy.push(-9.513105085698783);ipz.push(-15.05596488197435);ipn.push(7);ipx.push(-5.06017351214926);ipy.push(-10.561756464183823);ipz.push(-15.060173512149243);ipn.push(7);ipx.push(-5.06423250070794);ipy.push(-11.610771527461482);ipz.push(-15.064232500707924);ipn.push(7);ipx.push(-5.064587867726777);ipy.push(-12.3135409438315);ipz.push(-15.064587867726777);ipn.push(7);ipx.push(-5.068568300804997);ipy.push(-13.362656686758267);ipz.push(-15.068568300805005);ipn.push(7);ipx.push(-5.072478709508751);ipy.push(-14.411944234262455);ipz.push(-15.07247870950875);ipn.push(7);ipx.push(-5.07633287817802);ipy.push(-15.461363746538463);ipz.push(-15.076332878178027);ipn.push(7);ipx.push(-5.080140739529167);ipy.push(-16.5108866649814);ipz.push(-15.080140739529169);ipn.push(7);ipx.push(-5.0806337379490145);ipy.push(-17.21295380432416);ipz.push(-15.080633737949015);ipn.push(7);ipx.push(-4.8846734556244575);ipy.push(-18.121190029871613);ipz.push(-14.884673455624457);ipn.push(0);ipx.push(-4.289201982310116);ipy.push(-18.74717630657798);ipz.push(-14.289201982310114);ipn.push(0);ipx.push(-3.69379150792086);ipy.push(-19.37343962315286);ipz.push(-13.69379150792086);ipn.push(0);ipx.push(-3.098426742298897);ipy.push(-19.99992671039545);ipz.push(-13.098426742298898);ipn.push(0);ipx.push(-2.6011256040206057);ipy.push(-20.00023895296322);ipz.push(-12.601125604020606);ipn.push(1);ipx.push(-1.8591909396249717);ipy.push(-20.000721155457438);ipz.push(-11.85919093962497);ipn.push(1);ipx.push(-1.1171985656866539);ipy.push(-20.001245583100054);ipz.push(-11.117198565686653);ipn.push(1);ipx.push(-0.37515513411825735);ipy.push(-20.001805215887572);ipz.push(-10.375155134118257);ipn.push(1);ipx.push(0.36693380398489545);ipy.push(-20.00239406656552);ipz.push(-9.633066196015104);ipn.push(1);ipx.push(1.109063580657887);ipy.push(-20.003006972521327);ipz.push(-8.890936419342118);ipn.push(1);ipx.push(1.6059043172824445);ipy.push(-20.00283294826902);ipz.push(-8.394095682717559);ipn.push(1);ipx.push(2.347969016465617);ipy.push(-20.003422560036856);ipz.push(-7.652030983534379);ipn.push(1);ipx.push(3.0900698796245134);ipy.push(-20.00403520332864);ipz.push(-6.90993012037549);ipn.push(1);ipx.push(3.832203931103124);ipy.push(-20.004667095756922);ipz.push(-6.167796068896883);ipn.push(1);ipx.push(4.574368582739252);ipy.push(-20.005314834188304);ipz.push(-5.425631417260757);ipn.push(1);ipx.push(5.316561572156463);ipy.push(-20.005975334364024);ipz.push(-4.683438427843544);ipn.push(1);ipx.push(6.058780912392393);ipy.push(-20.006645781867064);ipz.push(-3.9412190876076085);ipn.push(1);ipx.push(6.555249194739494);ipy.push(-20.006117945450868);ipz.push(-3.444750805260515);ipn.push(1);ipx.push(7.2974094791453865);ipy.push(-20.006787676787663);ipz.push(-2.7025905208546144);ipn.push(1);ipx.push(8.039594452524984);ipy.push(-20.0074682417497);ipz.push(-1.960405547475004);ipn.push(1);ipx.push(8.781802680935554);ipy.push(-20.008157265155205);ipz.push(-1.2181973190644524);ipn.push(1);ipx.push(9.524032878112955);ipy.push(-20.00885252608201);ipz.push(-0.475967121887057);ipn.push(1);ipx.push(10.266283886293387);ipy.push(-20.009551938618273);ipz.push(0.2662838862933786);ipn.push(1);ipx.push(10.762574813170819);ipy.push(-20.00877668706637);ipz.push(0.7625748131708242);ipn.push(1);ipx.push(11.504771540512232);ipy.push(-20.009490963872164);ipz.push(1.5047715405122404);ipn.push(1);ipx.push(12.246988214523084);ipy.push(-20.01021069530347);ipz.push(2.2469882145230855);ipn.push(1);ipx.push(12.989223946928584);ipy.push(-20.01093400490166);ipz.push(2.989223946928586);ipn.push(1);ipx.push(13.592334023195532);ipy.push(-19.39916585134419);ipz.push(3.5923340231955434);ipn.push(2);ipx.push(14.195575374578567);ipy.push(-18.787604449431292);ipz.push(4.195575374578722);ipn.push(2);ipx.push(14.79893223079582);ipy.push(-18.176220842811023);ipz.push(4.79893223079622);ipn.push(2);ipx.push(15.000979901226447);ipy.push(-17.61896030506765);ipz.push(5.000979901212019);ipn.push(3);ipx.push(15.003712213386363);ipy.push(-16.5696322358125);ipz.push(5.003712213349757);ipn.push(3);ipx.push(15.006489912834748);ipy.push(-15.520255706910344);ipz.push(5.00648991279828);ipn.push(3);ipx.push(15.009307709795047);ipy.push(-14.470832342090976);ipz.push(5.009307709777149);ipn.push(3);ipx.push(15.012160556790919);ipy.push(-13.42136364832189);ipz.push(5.012160556806691);ipn.push(3);ipx.push(15.01504362671378);ipy.push(-12.371851027199828);ipz.push(5.0150436267755865);ipn.push(3);ipx.push(15.017952293402212);ipy.push(-11.32229578505025);ipz.push(5.017952293520131);ipn.push(3);ipx.push(15.019075287491841);ipy.push(-10.619368602996305);ipz.push(5.019075287239094);ipn.push(3);ipx.push(15.021961181901338);ipy.push(-9.56995629928714);ipz.push(5.021961181709092);ipn.push(3);ipx.push(15.024876058545326);ipy.push(-8.520501906642895);ipz.push(5.024876058426445);ipn.push(3);ipx.push(15.027815595608592);ipy.push(-7.471006517456);ipz.push(5.027815595573337);ipn.push(3);ipx.push(15.030775619775635);ipy.push(-6.421471158812982);ipz.push(5.030775619832359);ipn.push(3);ipx.push(15.03375209503844);ipy.push(-5.37189679814629);ipz.push(5.033752095193869);ipn.push(3);ipx.push(15.036741112625597);ipy.push(-4.322284348319556);ipz.push(5.036741112885469);ipn.push(3);ipx.push(15.037298237039595);ipy.push(-3.6196746858952267);ipz.push(5.037298236584572);ipn.push(3);ipx.push(15.040303437583662);ipy.push(-2.5701998485040654);ipz.push(5.040303437263067);ipn.push(3);ipx.push(15.043324833166537);ipy.push(-1.5206871240548643);ipz.push(5.0433248329861655);ipn.push(3);ipx.push(15.046358684678758);ipy.push(-0.47113729528166415);ipz.push(5.046358684642882);ipn.push(3);ipx.push(15.049401352614263);ipy.push(0.5784488939203278);ipz.push(5.0494013527262025);ipn.push(3);ipx.push(15.052449290830763);ipy.push(1.6280707354522992);ipz.push(5.052449291093267);ipn.push(3);ipx.push(15.055499040863555);ipy.push(2.6777275542434387);ipz.push(5.0554990412792336);ipn.push(3);ipx.push(15.055600128889358);ipy.push(3.380084456296502);ipz.push(5.055600128254734);ipn.push(3);ipx.push(15.058702127943935);ipy.push(4.429607610912167);ipz.push(5.05870212751244);ipn.push(3);ipx.push(15.061809679622636);ipy.push(5.479165730994648);ipz.push(5.06180967939447);ipn.push(3);ipx.push(15.064919423270108);ipy.push(6.52875822676545);ipz.push(5.064919423244904);ipn.push(3);ipx.push(15.068028070185008);ipy.push(7.578384532531014);ipz.push(5.068028070362262);ipn.push(3);ipx.push(14.670344540402867);ipy.push(8.34245102355182);ipz.push(4.6703445386443505);ipn.push(4);ipx.push(14.072318575114878);ipy.push(8.96390296502175);ipz.push(4.072318567841064);ipn.push(4);ipx.push(13.67068639553068);ipy.push(9.379019763496016);ipz.push(3.67068640989347);ipn.push(4);ipx.push(13.072638386879511);ipy.push(10.000066942163048);ipz.push(3.0726384001370373);ipn.push(4);ipx.push(12.330745197035645);ipy.push(9.999408576870769);ipz.push(2.3307451385975173);ipn.push(5);ipx.push(11.588805302555018);ipy.push(9.998801926007912);ipz.push(1.5888052997086186);ipn.push(5);ipx.push(10.846819422320356);ipy.push(9.99824010416845);ipz.push(0.8468195835589106);ipn.push(5);ipx.push(10.104788247914076);ipy.push(9.997716387901649);ipz.push(0.10478866702738401);ipn.push(5);ipx.push(9.606753974257314);ipy.push(9.99663233667406);ipz.push(-0.393247352703176);ipn.push(5);ipx.push(8.864907891815607);ipy.push(9.996066118642801);ipz.push(-1.1350932476040905);ipn.push(5);ipx.push(8.1230161253785);ipy.push(9.995545756308346);ipz.push(-1.8769847141829363);ipn.push(5);ipx.push(7.38107930855151);ipy.push(9.995064655604164);ipz.push(-2.6189211366656444);ipn.push(5);ipx.push(6.6390980532508905);ipy.push(9.994616363001697);ipz.push(-3.3609019169710246);ipn.push(5);ipx.push(5.897072951080793);ipy.push(9.99419455743564);ipz.push(-4.1029264737087505);ipn.push(5);ipx.push(5.155004574598371);ipy.push(9.993793042662219);ipz.push(-4.844994241234208);ipn.push(5);ipx.push(4.657185678572902);ipy.push(9.991818998379564);ipz.push(-5.342817461369503);ipn.push(5);ipx.push(3.9152993016544766);ipy.push(9.991440650842575);ipz.push(-6.084703100694103);ipn.push(5);ipx.push(3.1733692004360927);ipy.push(9.991090177939286);ipz.push(-6.826632407875152);ipn.push(5);ipx.push(2.431395904701626);ipy.push(9.990761466139084);ipz.push(-7.5686048620666195);ipn.push(5);ipx.push(1.6893799289142672);ipy.push(9.990448513033257);ipz.push(-8.310619954544881);ipn.push(5);ipx.push(0.94732177312795);ipy.push(9.99014542123019);ipz.push(-9.052677188065758);ipn.push(5);ipx.push(0.20522192382356774);ipy.push(9.989846392521542);ipz.push(-9.794776076249871);ipn.push(5);ipx.push(-0.292413067584303);ipy.push(9.987095932135333);ipz.push(-10.292417909396871);ipn.push(5);ipx.push(-1.034333430064545);ipy.push(9.986883309928325);ipz.push(-11.03433701221096);ipn.push(5);ipx.push(-1.7762959745921534);ipy.push(9.986682126024263);ipz.push(-11.776298288608896);ipn.push(5);ipx.push(-2.51830024755908);ipy.push(9.986486636984793);ipz.push(-12.518301286169093);ipn.push(5);ipx.push(-3.2115727019837244);ipy.push(9.777869075499439);ipz.push(-13.211568724630204);ipn.push(6);ipx.push(-3.8074915323435605);ipy.push(9.152592346969943);ipz.push(-13.807397592309853);ipn.push(6);ipx.push(-4.403650044223133);ipy.push(8.527543420909234);ipz.push(-14.40335215211245);ipn.push(6);ipx.push(-4.801451573395819);ipy.push(8.104504074362879);ipz.push(-14.802148908610798);ipn.push(6);ipx.push(-4.9999167793262815);ipy.push(7.196946318487422);ipz.push(-15.004285864696515);ipn.push(7);ipx.push(-4.999878896296922);ipy.push(6.148159894210334);ipz.push(-15.006297392560072);ipn.push(7);ipx.push(-4.999919090418165);ipy.push(5.099249994759267);ipz.push(-15.004247753046359);ipn.push(7);ipx.push(-5.00003515986585);ipy.push(4.050228988476271);ipz.push(-14.998136527109814);ipn.push(7);ipx.push(-5.000224983508205);ipy.push(3.001109223495507);ipz.push(-14.987963382311259);ipn.push(7);ipx.push(-5.000486517167465);ipy.push(1.9519030281603402);ipz.push(-14.973728072957153);ipn.push(7);ipx.push(-4.999110581270862);ipy.push(1.246079694497661);ipz.push(-15.048473320738143);ipn.push(7);ipx.push(-4.999256287669466);ipy.push(0.19727142931284658);ipz.push(-15.040904178179058);ipn.push(7);ipx.push(-4.999472476728161);ipy.push(-0.8516434315579178);ipz.push(-15.029277541586907);ipn.push(7);ipx.push(-4.999757268522245);ipy.push(-1.900652628907058);ipz.push(-15.013592962754437);ipn.push(7);ipx.push(-5.00010884808748);ipy.push(-2.9497439189494887);ipz.push(-14.993850083057632);ipn.push(7);ipx.push(-5.000525462570627);ipy.push(-3.998905073180022);ipz.push(-14.970048633474612);ipn.push(7);ipx.push(-5.001005418528733);ipy.push(-5.048123878271859);ipz.push(-14.942188434598156);ipn.push(7);ipx.push(-4.998318204996469);ipy.push(-5.753487877231657);ipz.push(-15.097544110204478);ipn.push(7);ipx.push(-4.998694621004385);ipy.push(-6.80244213899074);ipz.push(-15.076364671243029);ipn.push(7);ipx.push(-4.9991333897484145);ipy.push(-7.851474330878574);ipz.push(-15.051130004843188);ipn.push(7);ipx.push(-4.999632945348074);ipy.push(-8.900572292825286);ipz.push(-15.021839751789132);ipn.push(7);ipx.push(-5.000191772595696);ipy.push(-9.949723876655415);ipz.push(-14.988493644258298);ipn.push(7);ipx.push(-5.000808404863316);ipy.push(-10.998916946171848);ipz.push(-14.951091505769302);ipn.push(7);ipx.push(-5.001481422112554);ipy.push(-12.04813937726826);ipz.push(-14.909633251134355);ipn.push(7);ipx.push(-4.997632057821495);ipy.push(-12.75309624289304);ipz.push(-15.145628443977802);ipn.push(7);ipx.push(-4.9982118875045405);ipy.push(-13.802186884345948);ipz.push(-15.110862974718628);ipn.push(7);ipx.push(-4.998847297673626);ipy.push(-14.851327257609327);ipz.push(-15.072043895398448);ipn.push(7);ipx.push(-4.999536968941583);ipy.push(-15.90050527944076);ipz.push(-15.029170956680257);ipn.push(7);ipx.push(-5.000279622021394);ipy.push(-16.949708876150023);ipz.push(-14.982244001641396);ipn.push(7);ipx.push(-5.001074016161122);ipy.push(-17.998925983838877);ipz.push(-14.931262965688177);ipn.push(7);
+	for(let i=0;i<131;i++){
+	//for(let i=0;i<ipx.length;i++){
+		particles.push({
+			s:new THREE.Mesh(new THREE.SphereGeometry(0.5),new THREE.MeshStandardMaterial({color: 0xff0000})),
+			n:nodes[0]
+			//n:nodes[ipn[i]]
+		});
+		// to create initialization, use next line and comment out the one after
+		particles[particles.length-1].s.position.set(nodes[0].p.x,nodes[0].p.y,nodes[0].p.z-i);
+		//particles[particles.length-1].s.position.set(ipx[i],ipy[i],ipz[i]);
+		scene.add(particles[particles.length-1].s);
+	}
+	//use below lines to get initial positions of particles
+	let node_holder = particles[particles.length-1].n;
+	while(node_holder == particles[particles.length-1].n){particles.forEach(update_particles);}
+	let init_set_string = new String('');
+	function init_particles(item){
+		init_set_string = init_set_string+
+			"ipx.push("+item.s.position.x.toString()+
+			");ipy.push("+item.s.position.y.toString()+
+			");ipz.push("+item.s.position.z.toString()+");";
+		let temp_node;
+		for(let l=0;l<nodes.length;l++){if(nodes[l]==item.n){init_set_string=init_set_string+"ipn.push("+l.toString()+");";break;}}
+	}
+	particles.forEach(init_particles);
+	document.getElementById("init_set").innerHTML = init_set_string;
+	start = true;
+}
+initialize_page();
+			
+function animate() {
+	requestAnimationFrame( animate );
+	particles.forEach(update_particles);
+	nodes.forEach(update_nodes);
+	controls.update();			
+	renderer.render( scene, camera );
+	velocity.add(dv);
+	if(velocity.length()>0.6 && once){ dv.multiplyScalar(-1); once=false;}
+	if(velocity.length()<0.1 && !once){ once=true; forward=!forward;}
+}
+animate();
+</script></body></html>
