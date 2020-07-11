@@ -44,9 +44,9 @@ function drawScene(t){
 function animate(){
 	total_time += dt;
 	drawScene(total_time);
-	if(total_time>90){
-		clearInterval(interval);
+	if(total_time>85){
 		drawScene(0);
+		clearInterval(interval);
 	}
 }
 
