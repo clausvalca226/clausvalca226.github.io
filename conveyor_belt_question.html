@@ -23,10 +23,11 @@
 	function fitToContainer(canvas){
 		// Make it visually fill the positioned parent
 		canvas.style.width ='100%';
-		canvas.style.height='100%';
+		//canvas.style.height='100%';
 		// ...then set the internal size to match
 		canvas.width  = canvas.offsetWidth;
-		canvas.height = canvas.offsetHeight;
+		//canvas.height = canvas.offsetHeight;
+		canvas.height = canvas.width/2;
 	}
  	var delay = document.getElementById("delay").value;
 	//canvas.width = 900;
@@ -47,15 +48,14 @@ function y(n){return canvas.height-canvas.height*n/100;}
 
 function drawScene(t){
 	context.clearRect(x(0), y(0), x(100), y(100));		// clear the screen
-	var conveyor_belt_height = 35;
-	context.drawImage(conveyor_belt,x(0),y(0+conveyor_belt_height),x(100),y(conveyor_belt_height));
+	context.drawImage(conveyor_belt,x(0),y(50),x(100),y(50));
 	//context.beginPath();
 	//context.moveTo(40,canvas.height-200);
 	//context.lineTo(50,canvas.height-220);
 	//context.lineTo(45,canvas.height-210);
 	//context.lineTo(850,canvas.height-210);
 	//context.stroke();
-	context.drawImage(material,x(5+t*10),y(conveyor_belt_height-5));
+	context.drawImage(material,x(5+t*10),y(40));
 	context.drawImage(press,x(90),y(100));
 }
 
