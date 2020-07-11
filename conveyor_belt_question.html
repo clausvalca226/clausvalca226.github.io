@@ -19,6 +19,15 @@
 	var interval = null; // holds return of setInterval for stopping later
 	// create canvas, context, and set size to size of window
 	var canvas = document.getElementById('canvas'),context=canvas.getContext('2d');
+	fitToContainer(canvas);
+	function fitToContainer(canvas){
+		// Make it visually fill the positioned parent
+		canvas.style.width ='100%';
+		canvas.style.height='100%';
+		// ...then set the internal size to match
+		canvas.width  = canvas.offsetWidth;
+		canvas.height = canvas.offsetHeight;
+	}
  	var delay = document.getElementById("delay").value;
 	//canvas.width = 900;
 	//canvas.height = 400;
