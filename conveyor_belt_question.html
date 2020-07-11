@@ -37,8 +37,8 @@ function y(n){return canvas.height-canvas.height*n/100;}
 function drawScene(t){
 	context.clearRect(x(0), y(0), x(100), y(100));		// clear the screen
 	context.drawImage(conveyor_belt,x(0),y(50),x(100),y(50));
-	context.drawImage(material,x(5+t*10),y(40));
-	context.drawImage(press,x(85),y(100));
+	context.drawImage(material,x(5+t*10),y(40),x(5),y(5));
+	context.drawImage(press,x(85),y(100),x(10),y(3));
 }
 
 function animate(){
