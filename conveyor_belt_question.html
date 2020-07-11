@@ -38,14 +38,14 @@
 function drawScene(t){
 	context.clearRect(0, 0, canvas.width, canvas.height);		// clear the screen
 	context.drawImage(conveyor_belt,0,canvas.height-200);
-	context.drawImage(material,15,canvas.height-180);
-	context.drawImage(press,canvas.width-100,0);
+	context.drawImage(material,20+t*10,canvas.height-185);
+	context.drawImage(press,canvas.width-250,0);
 }
 
 function animate(){
 	total_time += dt;
 	drawScene(total_time);
-	if(total_time>100){clearInterval(interval);}
+	if(total_time>90){clearInterval(interval);}
 }
 
 function run_animation(){
