@@ -11,7 +11,7 @@
 </style>
 </head>
 <body>
-  <canvas id="canvas" width="800" height="400"></canvas><br>
+  <canvas id="canvas"></canvas><br>
   <div class="row">
     <div class="column" style="width:100px">&Delta;t:</div>
     <div class="column" style="width:250px"><input value="0" id="delay"></div>
@@ -37,7 +37,7 @@
 
 function drawScene(t){
 	context.clearRect(0, 0, canvas.width, canvas.height);		// clear the screen
-	context.drawImage(conveyor_belt,canvas.width/2,canvas.height/3);
+	context.drawImage(conveyor_belt,0,canvas.height/3);
 }
 
 function animate(){
