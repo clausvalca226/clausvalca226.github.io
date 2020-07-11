@@ -22,7 +22,7 @@
 	// create canvas, context, and set size to size of window
 	var canvas = document.getElementById('canvas'),context=canvas.getContext('2d');
  	var delay = document.getElementById("delay").value;
-	canvas.width = 850;
+	canvas.width = 900;
 	canvas.height = 400;
 	// Create embedded images using base64 and draw it
  	var conveyor_belt = new Image();
@@ -37,7 +37,7 @@
 
 function drawScene(t){
 	context.clearRect(0, 0, canvas.width, canvas.height);		// clear the screen
-	context.drawImage(conveyor_belt,0,0);
+	context.drawImage(conveyor_belt,0,canvas.height);
 }
 
 function animate(){
