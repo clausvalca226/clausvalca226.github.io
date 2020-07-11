@@ -19,7 +19,7 @@
 		// ...then set the internal size to match
 		canvas.width  = canvas.offsetWidth;
 		//canvas.height = canvas.offsetHeight;
-		canvas.height = canvas.width/2;
+		canvas.height = canvas.width/3;
 	}
  	var delay = document.getElementById("delay").value;
 	//canvas.width = 900;
@@ -48,7 +48,7 @@ function drawScene(t){
 	//context.lineTo(850,canvas.height-210);
 	//context.stroke();
 	context.drawImage(material,x(5+t*10),y(40));
-	context.drawImage(press,x(90),y(100));
+	context.drawImage(press,x(85),y(100));
 }
 
 function animate(){
