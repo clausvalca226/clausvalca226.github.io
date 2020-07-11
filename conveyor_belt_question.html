@@ -13,9 +13,7 @@
 <body>
   <canvas id="canvas"></canvas><br>
   <div class="row">
-    <div class="column" style="width:100px">&Delta;t:</div>
-    <div class="column" style="width:250px"><input value="0" id="delay"></div>
-    <div class="column" style="width:100px"><button type="button" id="start" onclick="run_animation()">Start</button></div>
+    <div class="column" style="width:100px">&Delta;t:</div><input value="0" id="delay"><button type="button" id="start" onclick="run_animation()">Start</button></div>
   </div>
 <script>
 	var interval = null; // holds return of setInterval for stopping later
