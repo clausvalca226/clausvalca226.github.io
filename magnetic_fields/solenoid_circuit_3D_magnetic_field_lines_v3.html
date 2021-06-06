@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Loop Circuit</title><style>body{margin:0;}canvas{width:100%;height:100%;}</style></head>
+<body><script type="module">
+import * as THREE from './three.module.js';
+import {OrbitControls} from './OrbitControls.js';
+
+// create scene
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 ); camera.position.set(0,10,50);
+let renderer = new THREE.WebGLRenderer(); renderer.setSize(window.innerWidth,window.innerHeight); renderer.setClearColor(0xffffff,1);
+document.body.appendChild(renderer.domElement);
+var controls = new OrbitControls(camera,renderer.domElement); controls.update(); renderer.render(scene,camera);
+
+let xOffset = 0;	let yOffset2 = 0;
+let loader = new THREE.TextureLoader();
+let texture; let texture2;
+loader.load('texture.png',(tex)=>{
+	texture = tex;
+	let loader2 = new THREE.TextureLoader();
+	loader2.load('texture2.png',(tex2)=>{
+		texture2 = tex2;
+		initialize_scene();
+		animate();
+	});
+});
+function initialize_scene(){
+	// add light
+	scene.add(new THREE.DirectionalLight());
+	let light=new THREE.DirectionalLight(0xFFFFFF,1);
+	light.position.set(0,-1,0);
+	scene.add(light);
+	
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(2000, 25);
+	texture2.wrapS = texture2.wrapT = THREE.RepeatWrapping;
+	texture2.repeat.set(250, 5);
+	
+	// key points of circuit
+	//let init_nodes=[new THREE.Vector3(-10.5,-5.5,-10.5),new THREE.Vector3(-10,-8,-10),new THREE.Vector3(-8,-10,-8),new THREE.Vector3(8,-10,8),new THREE.Vector3(10,-8,10),new THREE.Vector3(10,8,10),
+	//	new THREE.Vector3(8,10,8),new THREE.Vector3(-8,10,-8),new THREE.Vector3(-10,8,-10),new THREE.Vector3(-10.5,4,-10.5)];
+	let init_nodes=[];
+	init_nodes.push(new THREE.Vector3(-10.5,-5,-10.5));
+	init_nodes.push(new THREE.Vector3(-9.5,-10,-9.5));
+	init_nodes.push(new THREE.Vector3(8,-10,8));
+	init_nodes.push(new THREE.Vector3(10,-8,10));
+	let center = new THREE.Vector3(14,-8,14);
+	let radius = new THREE.Vector3(10,-6,10);radius.sub(center);
+	let circle_steps = 20;
+	for(let i=0;i<circle_steps*7-2;i++){
+		center.add(new THREE.Vector3(0,0.07,0));		radius.applyAxisAngle(new THREE.Vector3(0,1,0),2*Math.PI/circle_steps);
+		init_nodes.push(center.clone().add(radius));
+	}
+	//init_nodes.push(new THREE.Vector3(9,10,9));
+	init_nodes.push(new THREE.Vector3(8,10,8));
+	init_nodes.push(new THREE.Vector3(-8,10,-8));
+	init_nodes.push(new THREE.Vector3(-10,8,-10));
+	init_nodes.push(new THREE.Vector3(-10.5,4.5,-10.5));
+	
+	// create tube
+	let curve = new THREE.CatmullRomCurve3(init_nodes,false);
+	scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,100,0.6,20,false),new THREE.MeshBasicMaterial({map:texture,transparent:true,}) ));
+	let material = new THREE.MeshBasicMaterial({map:texture2,transparent:true,side:THREE.DoubleSide});
+	scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve,100,1.1,20,false),material));
+	scene.add(new THREE.Mesh( new THREE.TubeGeometry(curve,100,1.8,20,false), material));
+	scene.add(new THREE.Mesh( new THREE.TubeGeometry(curve,100,2.5,20,false), material));
+
+	// create battery
+	let temp_p = -10.5;
+	let cylinder1 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,7,50),new THREE.MeshBasicMaterial({color:0x000000}));
+	cylinder1.position.set(temp_p,0-2,temp_p);
+	scene.add(cylinder1);
+	let cylinder2 = new THREE.Mesh(new THREE.CylinderGeometry(2,2,3,50),new THREE.MeshBasicMaterial({color:0xffff00}));
+	cylinder2.position.set(temp_p,4.85-2,temp_p);
+	scene.add(cylinder2);
+	let cylinder3 = new THREE.Mesh(new THREE.CylinderGeometry(1,1,1,50),new THREE.MeshBasicMaterial({color:0x808080}));
+	cylinder3.position.set(temp_p,6.15-2,temp_p);
+	scene.add(cylinder3);
+}
+function animate() {
+	requestAnimationFrame(animate);
+	controls.update();		renderer.render( scene, camera );
+	xOffset -= 0.2;			if(xOffset<0){xOffset=1;}
+	texture.offset.set(xOffset,0);
+	texture.needsUpdate = true;
+	yOffset2 -= 0.05;		if(yOffset2<0){yOffset2=2;}
+	texture2.offset.set(0,yOffset2);
+	texture2.needsUpdate = true;
+}
+</script></body></html>
