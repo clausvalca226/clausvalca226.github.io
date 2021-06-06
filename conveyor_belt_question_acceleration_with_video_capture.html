@@ -38,7 +38,7 @@
 	var stream = canvas.captureStream(25);
 	var recordedChunks = [];
 	var options = { mimeType: "video/webm; codecs=vp9" };
-	mediaRecorder = new MediaRecorder(stream, options);
+	var mediaRecorder = new MediaRecorder(stream, options);
 	mediaRecorder.ondataavailable = handleDataAvailable;
 	mediaRecorder.onstop = downloadVideo;
 	//mediaRecorder.start();
